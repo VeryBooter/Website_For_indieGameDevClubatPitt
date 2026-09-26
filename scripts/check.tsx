@@ -1,21 +1,40 @@
 import assert from 'node:assert/strict';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { App } from '../src/App';
+import { pages, pageFromPath, type PageId } from '../src/navigation/pages';
+import { pageScenes } from '../src/pages/PageScenes';
+import { ScrollIntent } from '../src/navigation/scrollIntent';
 import { shouldPlayIntro } from '../src/components/introPolicy';
 import { DestinationLink } from '../src/components/ui';
 import { ProjectCard } from '../src/sections/Projects';
 import { EventEntry } from '../src/sections/Events';
 import { SponsorLevel } from '../src/sections/Sponsorship';
 import { destinations, projects, sponsorshipContact, proposalDestination, relatedOrganizations, events } from '../src/data/club';
-const html = renderToStaticMarkup(<App />);
-const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
-assert.equal(ids.length, new Set(ids).size, 'IDs must be unique');
-const anchors = [...html.matchAll(/href="#([^"]*)"/g)].map(match => match[1]);
-for (const anchor of anchors)
-    assert(ids.includes(anchor), `Missing anchor: ${anchor}`);
-assert.equal((html.match(/<h1\b/g) || []).length, 1, 'One main heading');
-assert(!html.includes('href="#"'), 'No dead links');
-assert(!html.includes('opening-stage'), 'Static/reduced-enhancement HTML must start usable');
+const rendered = new Map<string, string>((Object.keys(pages) as PageId[]).map(page => [pages[page].file, renderToStaticMarkup(<App page={page} />)]));
+let checkedLinks = 0;
+for (const [file, html] of rendered) {
+  const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
+  assert.equal(ids.length, new Set(ids).size, `${file}: IDs must be unique`);
+  assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one main heading`);
+  assert(!html.includes('href="#"'), `${file}: no dead links`);
+  assert(!html.includes('opening-stage'), `${file}: static HTML starts usable`);
+  assert(!html.includes('>People</a>'), `${file}: navigation uses Team`);
+  for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
+    if (!href.startsWith('#') && !href.startsWith('./')) continue;
+    const url = new URL(href, `https://example.com/club/${file}`);
+    const targetFile = url.pathname.split('/').pop()!;
+    if (!targetFile.endsWith('.html')) continue;
+    const targetHtml = rendered.get(targetFile);
+    assert(targetHtml, `${file}: missing destination ${href}`);
+    if (url.hash) assert(targetHtml.includes(`id="${url.hash.slice(1)}"`), `${file}: missing fragment ${href}`);
+    checkedLinks++;
+  }
+}
+assert.equal(pages.home.title, 'Building Our Game Dev Community @ Pitt | Indie Game Dev Club @ Pitt');
+for (const page of Object.keys(pages) as PageId[]) assert.equal(pageFromPath(`/repository/${pages[page].file}`), page);
+assert.equal(pageScenes('sponsorship').length, 5);
+assert.equal(pageScenes('team').length, 4);
+assert.equal(pageScenes('home').length, 3);
 const urlIsValid = (url: string) => /^(https:\/\/|mailto:|\.\/|#)/.test(url);
 for (const destination of [...destinations, sponsorshipContact, proposalDestination, ...relatedOrganizations]) {
     assert(destination.url === null || urlIsValid(destination.url), `Unsupported URL: ${destination.label}`);
@@ -39,7 +58,7 @@ assert(event.includes('Oct') && event.includes('>4<') && event.includes('2026-10
 const draftLevel = { name: 'DO NOT PUBLISH', description: 'Unapproved', amount: null, benefits: [], approved: false };
 assert.equal(renderToStaticMarkup(<SponsorLevel level={draftLevel}/>), '');
 assert(renderToStaticMarkup(<SponsorLevel level={{ ...draftLevel, approved: true, name: 'Fixture level' }}/>).includes('Fixture level'));
-console.log(`Passed: ${ids.length} unique targets, ${anchors.length} working anchors, pending links, static fallback, populated project/event records, sponsor approval gate.`);
+console.log(`Passed: ${rendered.size} pages, ${checkedLinks} cross-page/anchor links, one heading per page, Team navigation, populated records, and sponsor approval gate.`);
 const firstVisit = { enabled: true, reducedMotion: false, replay: false, seen: false, deepLink: false };
 assert(shouldPlayIntro(firstVisit));
 assert(!shouldPlayIntro({ ...firstVisit, seen: true }));
@@ -48,3 +67,18 @@ assert(!shouldPlayIntro({ ...firstVisit, reducedMotion: true, replay: true }));
 assert(!shouldPlayIntro({ ...firstVisit, enabled: false, replay: true }));
 assert(shouldPlayIntro({ ...firstVisit, seen: true, replay: true }));
 console.log('Passed intro policy: first visit, repeat visit, deep links, reduced motion, disabled intro, replay.');
+
+const gesture = new ScrollIntent();
+assert.equal(gesture.feed(2000, 0).direction, 0, 'One large wheel tick must not move a scene');
+gesture.reset();
+assert.equal(gesture.feed(70, 0).direction, 0);
+assert.equal(gesture.feed(70, 100).direction, 0);
+assert.equal(gesture.feed(70, 250).direction, 1, 'A sustained gesture advances exactly one scene');
+gesture.reset();
+gesture.feed(90, 0); gesture.feed(90, 100);
+assert.equal(gesture.feed(-90, 250).direction, 0, 'Reversing direction resets accumulated intent');
+gesture.reset(); gesture.feed(90, 0);
+assert.equal(gesture.feed(90, 400).progress, 0, 'Separated wheel ticks do not accumulate');
+gesture.reset(); gesture.feed(-30, 0, true); gesture.feed(-30, 100, true);
+assert.equal(gesture.feed(-30, 250, true).direction, -1, 'Sustained upward swipe returns a scene');
+console.log('Passed sustained scroll intent: isolated ticks, threshold, pause, reversal, touch direction.');

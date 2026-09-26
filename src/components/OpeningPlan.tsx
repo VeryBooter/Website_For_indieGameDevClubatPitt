@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { club } from '../data/club';
 import { shouldPlayIntro } from './introPolicy';
-export const INTRO_KEY = 'pitt-igdc:opening-seen:v1';
+export const INTRO_KEY = 'pitt-igdc:scroll-opening-seen:v2';
 export const INTRO_DURATION = 2400;
 /** A decorative enhancement: it never owns scrolling, focus, or the content. */
 export function OpeningPlan({ replay = 0 }: {
@@ -44,14 +44,15 @@ export function OpeningPlan({ replay = 0 }: {
     }, [replay]);
     if (!playing)
         return null;
-    return <div className="opening-stage" data-testid="opening-plan">
-    <div className="intro-veil" aria-hidden="true"/>
-    <div className="unfolding-plan" aria-hidden="true">
-      <div className="plan-panel panel-left"><span className="plan-cross">+</span><span className="plan-label">01 / IMAGINE</span></div>
-      <div className="plan-panel panel-center"><svg className="plan-route" viewBox="0 0 260 300"><path d="M25 250V175H115V110H210V40"/><circle cx="25" cy="250" r="8"/><rect x="199" y="29" width="22" height="22"/><path d="m100 100 15-10 15 10-15 10Z"/></svg><span className="plan-label">02 / MAKE</span></div>
-      <div className="plan-panel panel-right"><span className="plan-cross">+</span><span className="plan-label">03 / PLAY</span></div>
-    </div>
-    <svg className="plan-maker" viewBox="0 0 130 155" aria-hidden="true">
+    return <div className="opening-stage scroll-opening" data-testid="opening-plan">
+      <div className="intro-veil" aria-hidden="true" />
+      <div className="scroll-sheet" aria-hidden="true">
+        <span className="scroll-caption">INDIE GAME DEV CLUB @ PITT · WORLD IN PROGRESS</span>
+        <svg viewBox="0 0 900 400" preserveAspectRatio="xMidYMid meet"><g fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M70 320H260V200H430V90H640V190H800" strokeDasharray="8 7"/><path d="m240 185 35-20 35 20-35 20Zm190-100 35-20 35 20-35 20Zm340 100 35-20 35 20-35 20Z"/><circle cx="70" cy="320" r="14"/><path d="M70 300v40m-20-20h40"/><rect x="787" y="177" width="26" height="26" stroke="#9b4033"/></g></svg>
+        <span className="scroll-caption scroll-caption-bottom">IMAGINE / MAKE / PLAY</span>
+      </div>
+      <div className="scroll-roller" aria-hidden="true"><span /><span /></div>
+    <svg className="scroll-maker" viewBox="0 0 130 155" aria-hidden="true">
       <g fill="none" stroke="#2c342e" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M51 107 43 141 30 144M73 109 82 139 94 142"/>
         <path d="M47 66Q62 58 76 68L79 112 43 112Z" fill="#e4e7dc"/>

@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>流动太极 · Loading 预览</title>
+<style>
+:root {color-scheme:light; --foreground:#202020; --background:#fff; font-family:system-ui,-apple-system,"Segoe UI",sans-serif;}
+* {box-sizing:border-box;}
+body {margin:0; background:#fff; color:#202020; padding:32px 20px;}
+main {max-width:680px; margin:0 auto;}
+header {text-align:center;}
+h1 {font-family:Georgia,"Noto Serif CJK SC","Songti SC",serif; font-size:28px; font-weight:500; letter-spacing:.12em; margin:8px 0 12px;}
+header p,footer {color:#606060; font-size:14px; line-height:1.7;}
+.btn {font:inherit; padding:10px 24px; border:1px solid #202020; border-radius:8px; background:white; cursor:pointer; min-height:44px;}
+.btn-primary {background:#202020;color:white;}
+.form-label {font-size:14px;}
+.form-range {width:100%;min-height:28px; accent-color:#202020; cursor:pointer; margin:0;}
+.form-check {display:flex;align-items:center;gap:8px;min-height:44px;font-size:14px;cursor:pointer;}
+.form-check-input {width:17px;height:17px;accent-color:#202020;}
+.tabular-nums {font-variant-numeric:tabular-nums;}
+.text-small {font-size:13px;}
+footer {text-align:center;margin-top:26px;}
+@media (max-width:400px) {body {padding:16px;} header p{max-width:260px;margin:0 auto;}}
+</style>
+</head>
+<body><main><header><h1>流动太极</h1><p>正弦波 · 横纵同尺度 · 向左流动</p></header>
+<div id="taiji-sine-preview">
+  <style>
+    #taiji-sine-preview { color:var(--foreground,#202020); font-family:system-ui,sans-serif; }
+    #taiji-sine-preview .taiji-stage { display:flex; justify-content:center; padding:12px 0; }
+    #taiji-sine-preview .taiji-main { display:block; width:min(100%,360px); height:auto; background:white; }
+    #taiji-sine-preview .taiji-controls { display:flex; align-items:center; flex-wrap:wrap; gap:16px; justify-content:center; }
+    #taiji-sine-preview .taiji-speed { display:grid; gap:6px; min-width:180px; flex:1; max-width:260px; }
+    #taiji-sine-preview .taiji-speed-label { display:flex; justify-content:space-between; gap:12px; }
+    #taiji-sine-preview .taiji-toggle { display:flex; justify-content:center; margin-top:18px; }
+    #taiji-sine-preview .taiji-strip { width:100%; height:auto; display:block; background:white; margin-top:12px; }
+    #taiji-sine-preview .taiji-strip-label { text-align:center; margin:12px 0 0; }
+    #taiji-sine-preview [hidden] { display:none!important; }
+  </style>
+  <div class="taiji-stage">
+    <canvas class="taiji-main" width="1024" height="1024" role="img" aria-label="固定圆形窗口内，黑白波形向左流动。黑色鱼眼位于波峰下方，白色鱼眼位于波谷上方。">浏览器需要支持 Canvas 才能显示动画。</canvas>
+  </div>
+  <div class="taiji-controls">
+    <button type="button" class="btn btn-primary" data-action="play" aria-pressed="false">暂停</button>
+    <label class="taiji-speed form-label">
+      <span class="taiji-speed-label"><span>速度</span><output class="tabular-nums" data-value="speed">1.00×</output></span>
+      <input class="form-range" type="range" min="0.25" max="2" step="0.25" value="1" aria-label="动画速度" data-control="speed">
+    </label>
+    <span class="text-small tabular-nums" data-value="duration" aria-live="polite">3.00 秒 / 循环</span>
+  </div>
+  <div class="taiji-toggle">
+    <label class="form-check"><input class="form-check-input" type="checkbox" data-control="diagram"><span class="form-check-label">查看圆圈外的运动示意</span></label>
+  </div>
+  <div data-panel="diagram" hidden>
+    <p class="taiji-strip-label text-small">← 波形与鱼眼一起移动 · 圆圈固定</p>
+    <canvas class="taiji-strip" width="1440" height="520" role="img" aria-label="完整波形带，黑色鱼眼跟随波峰下方，白色鱼眼跟随波谷上方；细圆圈标记固定裁剪区域。"></canvas>
+  </div>
+  <script>
+  (() => {
+    'use strict';
+    const root = document.getElementById('taiji-sine-preview');
+    const main = root.querySelector('.taiji-main');
+    const strip = root.querySelector('.taiji-strip');
+    const playButton = root.querySelector('[data-action="play"]');
+    const speedInput = root.querySelector('[data-control="speed"]');
+    const speedOutput = root.querySelector('[data-value="speed"]');
+    const durationOutput = root.querySelector('[data-value="duration"]');
+    const diagramInput = root.querySelector('[data-control="diagram"]');
+    const diagramPanel = root.querySelector('[data-panel="diagram"]');
+
+    // 可修改的绘图参数。坐标采用 Canvas 约定：y 向下增加。
+    const SETTINGS = Object.freeze({
+      cycleSeconds: 3,
+      radius: 216,
+      waveAmplitudeRatio: 1 / Math.PI,
+      eyeHeightRatio: 0.5 / Math.PI,
+      eyeRadiusRatio: 0.28 / Math.PI,
+      outlineWidth: 2
+    });
+    // 横纵使用相同的像素/单位比例 s=radius/π：直径对应 2π，振幅对应 1。
+    // 因此是等比例的 y=sin(x+2π·phase)，无纵向拉伸。phase 增加时向左。
+    // y = cy - A sin(2π((x-left)/wavelength + phase))。
+    // 波峰鱼眼：y=cy-eyeHeight（在峰下）；波谷鱼眼：y=cy+eyeHeight（在谷上）。
+    let phase = 0;
+    let speed = 1;
+    let running = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let lastTime = null;
+    let requestId = null;
+
+    const wrap = value => ((value % 1) + 1) % 1;
+
+    function drawBand(ctx, width, height, cx, cy, radius, progress) {
+      const wavelength = radius * 2;
+      const amplitude = radius * SETTINGS.waveAmplitudeRatio;
+      const eyeHeight = radius * SETTINGS.eyeHeightRatio;
+      const eyeRadius = radius * SETTINGS.eyeRadiusRatio;
+      const left = cx - radius;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, height);
+      // 曲线以上填黑，以下为白；采样间距小于一个显示像素。
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(width, 0);
+      for (let x = width; x >= 0; x -= 0.5) {
+        const y = cy - amplitude * Math.sin(2 * Math.PI * ((x-left)/wavelength + progress));
+        ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = '#000000';
+      ctx.fill();
+
+      // 每个波长恰有两个鱼眼，都与波形共享 progress，始终锁定峰谷。
+      const first = Math.floor((0-left)/wavelength + progress) - 1;
+      const last = Math.ceil((width-left)/wavelength + progress) + 1;
+      for (let k = first; k <= last; k++) {
+        const peakX = left + (k + 0.25 - progress) * wavelength;
+        const troughX = left + (k + 0.75 - progress) * wavelength;
+        ctx.fillStyle = '#000000';
+        ctx.beginPath();
+        ctx.arc(peakX, cy-eyeHeight, eyeRadius, 0, 2*Math.PI);
+        ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(troughX, cy+eyeHeight, eyeRadius, 0, 2*Math.PI);
+        ctx.fill();
+      }
+    }
+
+    function drawMain(progress) {
+      const ctx = main.getContext('2d');
+      const size = 512, center = size/2, radius = SETTINGS.radius;
+      ctx.setTransform(main.width/size, 0, 0, main.height/size, 0, 0);
+      ctx.clearRect(0, 0, size, size);
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(center, center, radius, 0, Math.PI*2);
+      ctx.clip();
+      drawBand(ctx, size, size, center, center, radius, progress);
+      ctx.restore();
+      // 固定边界最后描绘，防止内部图案覆盖它。
+      ctx.beginPath();
+      ctx.arc(center, center, radius, 0, Math.PI*2);
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = SETTINGS.outlineWidth;
+      ctx.stroke();
+    }
+
+    function drawStrip(progress) {
+      if (diagramPanel.hidden) return;
+      const ctx = strip.getContext('2d');
+      ctx.setTransform(2, 0, 0, 2, 0, 0);
+      drawBand(ctx, 720, 260, 360, 130, 112, progress);
+      // 双线使固定圆在两种色块上都可辨认。
+      ctx.beginPath();
+      ctx.arc(360, 130, 112, 0, Math.PI*2);
+      ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 4; ctx.stroke();
+      ctx.strokeStyle = '#000000'; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+
+    function draw() { drawMain(phase); drawStrip(phase); }
+    function updatePlayButton() {
+      playButton.textContent = running ? '暂停' : '播放';
+      playButton.setAttribute('aria-pressed', String(!running));
+    }
+    function advance(time) {
+      if (lastTime !== null) phase = wrap(phase + (time-lastTime)/1000/SETTINGS.cycleSeconds*speed);
+      lastTime = time;
+    }
+    function frame(time) {
+      requestId = null;
+      if (!running || document.hidden) { lastTime = null; return; }
+      advance(time);
+      draw();
+      requestId = requestAnimationFrame(frame);
+    }
+    function schedule() {
+      if (running && !document.hidden && requestId === null) requestId = requestAnimationFrame(frame);
+    }
+    function setRunning(value) {
+      running = value;
+      lastTime = null;
+      if (requestId !== null) cancelAnimationFrame(requestId);
+      requestId = null;
+      updatePlayButton();
+      schedule();
+    }
+
+    playButton.addEventListener('click', () => setRunning(!running));
+    speedInput.addEventListener('input', () => {
+      if (running && !document.hidden) advance(performance.now());
+      speed = Number(speedInput.value);
+      speedOutput.value = speed.toFixed(2) + '×';
+      durationOutput.textContent = (SETTINGS.cycleSeconds/speed).toFixed(2) + ' 秒 / 循环';
+    });
+    diagramInput.addEventListener('change', () => { diagramPanel.hidden = !diagramInput.checked; draw(); });
+    document.addEventListener('visibilitychange', () => {
+      lastTime = null;
+      if (document.hidden && requestId !== null) { cancelAnimationFrame(requestId); requestId = null; }
+      schedule();
+    });
+    // 一个很小的调试接口，可用浏览器控制台检查任意相位及循环首尾。
+    root.taiji = Object.freeze({
+      settings: SETTINGS,
+      seek(value) { setRunning(false); phase = wrap(value); draw(); },
+      play() { setRunning(true); },
+      pause() { setRunning(false); },
+      get phase() { return phase; },
+      get running() { return running; }
+    });
+    updatePlayButton();
+    draw();
+    schedule();
+  })();
+  </script>
+</div>
+
+<footer>黑眼在波峰下方，白眼在波谷上方。<br>下载后用浏览器打开即可，无需联网。</footer></main></body></html>

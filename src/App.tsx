@@ -1,16 +1,13 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { OpeningPlan } from './components/OpeningPlan';
-import { ScrollReveals } from './components/ScrollReveals';
-import { Hero } from './sections/Hero';
-import { About } from './sections/About';
-import { Projects } from './sections/Projects';
-import { People } from './sections/People';
-import { Events } from './sections/Events';
-import { Sponsorship } from './sections/Sponsorship';
-import { Join } from './sections/Join';
-export function App() {
-    const [replay, setReplay] = useState(0);
-    return <><a className="skip-link" href="#main">Skip to content</a><Header /><main id="main" tabIndex={-1}><Hero /><About /><Projects /><People /><Events /><Sponsorship /><Join /></main><Footer onReplay={() => { document.getElementById('home')?.scrollIntoView({ behavior: 'instant' }); setReplay(value => value + 1); }}/><OpeningPlan replay={replay}/><ScrollReveals /></>;
+import { ScenePager } from './components/ScenePager';
+import { TaijiTransition } from './components/TaijiTransition';
+import { pageScenes } from './pages/PageScenes';
+import type { PageId } from './navigation/pages';
+export function App({ page = 'home' }: { page?: PageId }) {
+  const [replay, setReplay] = useState(0);
+  const scenes = useMemo(() => [...pageScenes(page), { id: 'footer', label: 'Explore & connect', content: <Footer onReplay={page === 'home' ? () => { location.hash = 'home'; setReplay(value => value + 1); } : undefined} /> }], [page]);
+  return <><a className="skip-link" href="#main">Skip to content</a><Header page={page} /><main id="main" tabIndex={-1}><ScenePager scenes={scenes} /></main>{page === 'home' && <OpeningPlan replay={replay} />}<TaijiTransition /></>;
 }

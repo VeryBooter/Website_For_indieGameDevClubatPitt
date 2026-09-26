@@ -24,6 +24,7 @@ export type Person = {
     name: string;
     role: string;
     group: 'member' | 'officer' | 'advisor';
+    linkedinUrl?: string | null;
     photo: string | null;
     bio: string;
 };
@@ -49,7 +50,7 @@ export type SponsorshipLevel = {
     approved: boolean;
 };
 export const club = {
-    name: 'Indie Game Dev Club at Pitt',
+    name: 'Indie Game Dev Club @ Pitt',
     shortName: 'Indie Game Dev',
     introEnabled: true,
     copyStatus: 'draft' as 'draft' | 'approved',
@@ -72,9 +73,9 @@ export const club = {
     },
 };
 export const navigation = [
-    { label: 'Home', href: '#home' }, { label: 'Projects', href: '#projects' },
-    { label: 'People', href: '#people' }, { label: 'Sponsorship', href: '#sponsorship' },
-    { label: 'About', href: '#about' },
+    { label: 'Home', href: './index.html' }, { label: 'Projects', href: './projects.html' },
+    { label: 'Team', href: './team.html' }, { label: 'Sponsorship', href: './sponsorship.html' },
+    { label: 'About', href: './about.html' },
 ];
 export const destinations: Destination[] = [
     { label: 'Discord', url: null, pending: 'Invite pending' },
@@ -103,3 +104,12 @@ export const gallery: {
     alt: string;
     caption: string;
 }[] = [];
+
+// The sketch names this project provisionally. Never present it as a released game.
+export const projectPreview = {
+  title: 'Spaceship', titleStatus: 'Working title from the design sketch',
+  description: 'Project details are awaiting confirmation. This page reserves space for the game, its development team, and a playable demonstration.',
+  githubUrl: null as string | null, videoUrl: null as string | null, poster: null as string | null,
+};
+export const teamPhoto: { src: string; alt: string } | null = null;
+export const sponsorshipPacket: Destination = { label: 'Sponsorship information', url: null, pending: 'Approved sponsorship document pending' };

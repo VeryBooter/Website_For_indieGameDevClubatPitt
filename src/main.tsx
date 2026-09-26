@@ -1,9 +1,12 @@
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { App } from './App';
+import { pageFromPath, pages } from './navigation/pages';
 import './styles.css';
+import './pages.css';
 document.documentElement.classList.add('js');
+const page = pageFromPath(location.pathname);
+document.title = pages[page].title;
+document.querySelector('meta[name="description"]')?.setAttribute('content', pages[page].description);
 const root = document.getElementById('root')!;
-if (root.hasChildNodes())
-    hydrateRoot(root, <App />);
-else
-    createRoot(root).render(<App />);
+if (root.hasChildNodes()) hydrateRoot(root, <App page={page} />);
+else createRoot(root).render(<App page={page} />);
