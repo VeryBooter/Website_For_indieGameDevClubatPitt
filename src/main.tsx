@@ -3,6 +3,7 @@ import { App } from './App';
 import { pageFromPath, pages } from './navigation/pages';
 import './styles.css';
 import './pages.css';
+import './revision.css';
 document.documentElement.classList.add('js');
 const page = pageFromPath(location.pathname);
 document.title = pages[page].title;

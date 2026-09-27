@@ -72,10 +72,19 @@ export const club = {
         proposal: 'A project proposal channel is not yet available. Joining details will be added below when confirmed.',
     },
 };
-export const navigation = [
-    { label: 'Home', href: './index.html' }, { label: 'Projects', href: './projects.html' },
-    { label: 'Team', href: './team.html' }, { label: 'Sponsorship', href: './sponsorship.html' },
-    { label: 'About', href: './about.html' },
+export type NavigationItem = { label: string; href: string; children?: { label: string; href: string; group?: string }[] };
+export const navigation: NavigationItem[] = [
+    { label: 'Home', href: './index.html' },
+    { label: 'Projects', href: './projects.html', children: [
+      { label: '🚀 Spaceship', href: './project.html', group: 'IN DEVELOPMENT' },
+      { label: 'Docs', href: './docs.html', group: 'RESOURCES' },
+      { label: 'Propose a project', href: './proposal.html' },
+    ] },
+    { label: 'Team', href: './team.html', children: [
+      { label: 'History & Gallery', href: './history.html' },
+      { label: 'Members & Events', href: './members.html' },
+    ] },
+    { label: 'Sponsorship', href: './sponsorship.html' },
 ];
 export const destinations: Destination[] = [
     { label: 'Discord', url: null, pending: 'Invite pending' },
@@ -85,6 +94,8 @@ export const destinations: Destination[] = [
     { label: 'GitHub', url: null, pending: 'Club profile pending' },
     { label: 'Instagram', url: null, pending: 'Link pending' },
     { label: 'YouTube', url: null, pending: 'Link pending' },
+    { label: 'X', url: null, pending: 'Link pending' },
+    { label: 'Facebook', url: null, pending: 'Link pending' },
 ];
 export const projects: Project[] = [];
 export const people: Person[] = [];
@@ -113,3 +124,5 @@ export const projectPreview = {
 };
 export const teamPhoto: { src: string; alt: string } | null = null;
 export const sponsorshipPacket: Destination = { label: 'Sponsorship information', url: null, pending: 'Approved sponsorship document pending' };
+
+export const contactEmail: string | null = null;

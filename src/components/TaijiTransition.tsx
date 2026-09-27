@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { pages } from '../navigation/pages';
 /** Adapted from the supplied taiji-loading.html: a fixed circle with a left-moving sine wave. */
 export function drawTaiji(ctx: CanvasRenderingContext2D, progress: number) {
   const size = 512, center = 256, radius = 216, wavelength = radius * 2;
@@ -45,7 +46,9 @@ export function TaijiTransition() {
       if (url.origin === location.origin && url.pathname === location.pathname && url.search === location.search) return;
       event.preventDefault();
       if (pending.current) return;
-      pending.current = url.href; setDestination(link.textContent?.trim() || 'Next page');
+      pending.current = url.href;
+      const targetPage = Object.values(pages).find(page => url.pathname.endsWith('/' + page.file));
+      setDestination(targetPage?.label || link.getAttribute('aria-label') || link.textContent?.trim() || 'Next page');
       // Navigation does not depend on the canvas, fonts, media, or a network prefetch.
       timeout = setTimeout(() => location.assign(url.href), matchMedia('(prefers-reduced-motion: reduce)').matches ? 100 : 850);
     };
@@ -53,5 +56,5 @@ export function TaijiTransition() {
     document.addEventListener('click', click); window.addEventListener('keydown', key); window.addEventListener('pageshow', reset);
     return () => { reset(); document.removeEventListener('click', click); window.removeEventListener('keydown', key); window.removeEventListener('pageshow', reset); };
   }, []);
-  return destination ? <div className="page-transition" role="status" aria-live="polite" aria-label={`Opening ${destination}`}><TaijiCanvas /><p>Opening {destination}</p><span>ESC TO CANCEL</span></div> : null;
+  return destination ? <div className="page-transition" role="status" aria-live="polite" aria-label={`Opening ${destination}`}><TaijiCanvas /><p>Opening <strong className="transition-destination">{destination}</strong></p><span>ESC TO CANCEL</span></div> : null;
 }

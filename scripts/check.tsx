@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { App } from '../src/App';
+import { Footer } from '../src/components/Footer';
+import { monthCells } from '../src/components/Almanac';
 import { pages, pageFromPath, type PageId } from '../src/navigation/pages';
 import { pageScenes } from '../src/pages/PageScenes';
 import { ScrollIntent } from '../src/navigation/scrollIntent';
@@ -82,3 +84,21 @@ assert.equal(gesture.feed(90, 400).progress, 0, 'Separated wheel ticks do not ac
 gesture.reset(); gesture.feed(-30, 0, true); gesture.feed(-30, 100, true);
 assert.equal(gesture.feed(-30, 250, true).direction, -1, 'Sustained upward swipe returns a scene');
 console.log('Passed sustained scroll intent: isolated ticks, threshold, pause, reversal, touch direction.');
+
+const directory = renderToStaticMarkup(<Footer />);
+for (const metadata of Object.values(pages)) {
+  assert(directory.includes(`href="./${metadata.file}"`), `Footer must reach ${metadata.file}`);
+}
+const homepage = rendered.get('index.html')!;
+assert(!homepage.includes('WORLD_01') && !homepage.includes('Keep scrolling'));
+assert(homepage.includes('href="./untitled.html"'));
+assert(!homepage.match(/<h1[^>]*>[\s\S]*?<br\s*\/?>([\s\S]*?)<\/h1>/));
+for (const channel of ['YouTube', 'Instagram', 'X', 'Facebook']) assert(directory.includes(`${channel} — link pending`));
+assert(!rendered.get('proposal.html')!.includes('class="scene-pager'), 'Proposal form uses continuous reading');
+assert(!rendered.get('history.html')!.includes('class="scene-pager'), 'History timeline uses continuous reading');
+const leap = monthCells(2028, 1);
+assert.equal(leap.filter(Boolean).length, 29, 'Leap-year February has 29 days');
+assert.equal(monthCells(2027, 1).filter(Boolean).length, 28);
+assert.equal(monthCells(2026, 7).length, 42, 'Six-week months retain every date');
+assert.equal(monthCells(2026, 1)[0], 1, 'Sunday-start month has no leading blanks');
+console.log('Passed fourth revision: footer covers all routes, independent Untitled page, continuous forms/history, social bar, leap years and six-week calendars.');

@@ -61,7 +61,7 @@ export function ScenePager({ scenes }: { scenes: Scene[] }) {
     };
     document.addEventListener('click', click);
     const editable = (target: EventTarget | null) => target instanceof Element && !!target.closest('input,textarea,select,[contenteditable="true"],video');
-    const blocked = () => !!document.querySelector('.page-transition,.opening-stage') || document.querySelector('.menu-toggle')?.getAttribute('aria-expanded') === 'true';
+    const blocked = () => !!document.querySelector('.page-transition,.opening-stage,.nav-disclosure[aria-expanded="true"]') || document.querySelector('.menu-toggle')?.getAttribute('aria-expanded') === 'true';
     const onWheel = (event: WheelEvent) => {
       if (readingRef.current || event.ctrlKey || editable(event.target) || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
       event.preventDefault();
@@ -142,7 +142,7 @@ export function ScenePager({ scenes }: { scenes: Scene[] }) {
     {enabled && <nav className="scene-controls wrap" aria-label="Page scenes">
       <span className="scene-position" aria-live="polite">{String(active + 1).padStart(2, '0')} / {String(scenes.length).padStart(2, '0')} <span>{scenes[active].label}</span></span>
       {overflowing && <button className="reading-toggle" aria-pressed={reading} onClick={() => { readingRef.current = !reading; setReading(!reading); intent.current.reset(); setProgress(0); }}>{reading ? 'Back to page turns' : 'Read this scene'}</button>}
-      <span className="gesture-hint">Keep scrolling to turn the page<span className="gesture-meter" style={{ '--progress': progress } as CSSProperties} aria-hidden="true" /></span>
+      <span className="gesture-hint"><span className="gesture-meter" style={{ '--progress': progress } as CSSProperties} aria-hidden="true" /></span>
       <div className="scene-buttons"><button onClick={() => go(active - 1)} disabled={active === 0 || moving} aria-label="Previous scene">↑</button><button onClick={() => go(active + 1)} disabled={active === scenes.length - 1 || moving} aria-label="Next scene">↓</button></div>
     </nav>}
   </div>;

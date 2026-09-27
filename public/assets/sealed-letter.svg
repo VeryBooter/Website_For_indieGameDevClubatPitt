@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 64" fill="none">
+  <title>Sealed letter — based on the club founder’s sketch</title>
+  <path d="M6 12Q43 9 82 12L80 54Q44 58 7 54Z" stroke="#2c342e" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M7 13 44 36 81 13M8 53l23-21m49 21L57 32" stroke="#2c342e" stroke-width="1.7" stroke-linejoin="round"/>
+  <path d="m44 28 4 1 3 3 1 4-2 4-3 3-4 1-4-2-3-3-1-4 2-4 3-2Z" fill="#c83f32"/>
+  <circle cx="43.5" cy="35.7" r="4.7" stroke="#f5f3ec" stroke-width=".8"/>
+</svg>
