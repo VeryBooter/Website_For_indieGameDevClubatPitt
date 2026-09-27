@@ -103,3 +103,7 @@ The header order is Home → Projects → Team → Sponsorship, followed by a br
 Home's Imagine·Make·Play rail reveals upright letters down the page with a horizontal block cursor. The almanac animates the hand-drawn wave and eyes sequentially through its cells, and turns the calendar sheet when switching months. Reduced-motion mode reveals everything immediately. Browser-local date determines the initial month after hydration; the published events remain the sole source for event markers. No calendar service integration is implied.
 
 The PDFs supply layout sketches. The latest direct message determines the final labels and hierarchy where older sketches differ. Untitled is deliberate placeholder content, not a confirmed club claim. History's timeline remains undated until its source records are provided.
+
+## Site seal
+
+The original contemporary bird-worm-inspired 造境成遊 seal is shared by all routes via `SiteSeal`. It stays fixed at the lower-right corner, including the taiji navigation overlay. During that overlay it grows slightly and plays a brief stamping entrance; reduced motion keeps it static. The decoration does not intercept pointer input. The web asset is `public/assets/zaojing-chengyou-seal.svg`; editable artwork and research notes live in `output/seal/`.
