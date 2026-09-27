@@ -35,7 +35,7 @@ for (const [file, html] of rendered) {
 assert.equal(pages.home.title, 'Building Our Game Dev Community @ Pitt | Indie Game Dev Club @ Pitt');
 for (const page of Object.keys(pages) as PageId[]) assert.equal(pageFromPath(`/repository/${pages[page].file}`), page);
 assert.equal(pageScenes('sponsorship').length, 5);
-assert.equal(pageScenes('team').length, 4);
+assert.equal(pageScenes('team').length, 3);
 assert.equal(pageScenes('home').length, 3);
 const urlIsValid = (url: string) => /^(https:\/\/|mailto:|\.\/|#)/.test(url);
 for (const destination of [...destinations, sponsorshipContact, proposalDestination, ...relatedOrganizations]) {

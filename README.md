@@ -24,7 +24,7 @@ npm run preview
 - `index.html` — **Home**. The exact browser title is **Building Our Game Dev Community @ Pitt | Indie Game Dev Club @ Pitt**. Three main scenes: one-line title and vertical terminal typing, asymmetric Untitled links, animated almanac/calendar.
 - `projects.html` — project showcase, documentation, proposal entry, and a project-detail preview link.
 - `project.html` — project detail: introduction/GitHub on the left, demonstration video on the right. “Spaceship” is the sketch's working title, visibly marked as tentative.
-- `team.html` — **Team**, not People. Four main scenes: club introduction, community description/photo, member directory, join information.
+- `team.html` — **Team**, not People. Three main scenes: club introduction, community description/photo, join information. Member profiles live on Members & Events.
 - `sponsorship.html` — five main scenes: introduction/index, supporters, why sponsor, sponsorship levels, contact.
 - `docs.html` — an independent documentation page with an Untitled entry and contents navigation.
 - `proposal.html` — continuous form: why this idea, the proposal, and people/time/budget; downloads a Markdown draft locally until the Microsoft Forms URL is supplied.
