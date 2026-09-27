@@ -139,8 +139,8 @@ export function ScenePager({ scenes }: { scenes: Scene[] }) {
         <div className="scene-content">{scene.content}</div>
       </div>)}
     </div></div>
-    {enabled && <nav className="scene-controls wrap" aria-label="Page scenes">
-      <span className="scene-position" aria-live="polite">{String(active + 1).padStart(2, '0')} / {String(scenes.length).padStart(2, '0')} <span>{scenes[active].label}</span></span>
+    {enabled && <nav className="scene-controls" aria-label="Page scenes">
+      <span className="sr-only" aria-live="polite">{String(active + 1).padStart(2, '0')} / {String(scenes.length).padStart(2, '0')} <span>{scenes[active].label}</span></span>
       {overflowing && <button className="reading-toggle" aria-pressed={reading} onClick={() => { readingRef.current = !reading; setReading(!reading); intent.current.reset(); setProgress(0); }}>{reading ? 'Back to page turns' : 'Read this scene'}</button>}
       <span className="gesture-hint"><span className="gesture-meter" style={{ '--progress': progress } as CSSProperties} aria-hidden="true" /></span>
       <div className="scene-buttons"><button onClick={() => go(active - 1)} disabled={active === 0 || moving} aria-label="Previous scene">↑</button><button onClick={() => go(active + 1)} disabled={active === scenes.length - 1 || moving} aria-label="Next scene">↓</button></div>

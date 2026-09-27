@@ -229,3 +229,39 @@ body:has(.opening-stage) .terminal-letters, body:has(.opening-stage) .terminal-c
   .calendar-wave circle { opacity: 1; }
   .mail-bar img { transition: none; }
 }
+/* Screenshot annotations: remove the bottom strip and move its controls to the edge. */
+:root { --controls-height: 0px; }
+.scene-controls { position: fixed; right: 12px; top: calc(50% + var(--header-height) / 2); transform: translateY(-50%); width: 44px; height: auto; margin: 0; padding: 0; border: 0; background: transparent; display: flex; flex-direction: column; gap: 14px; }
+.scene-controls .scene-buttons { flex-direction: column; gap: 8px; }
+.scene-controls .scene-buttons button { background: var(--paper); width: 40px; height: 40px; }
+.scene-controls .gesture-hint { display: flex; margin: 0; }
+.scene-controls .gesture-meter { width: 36px; }
+.scene-controls .reading-toggle { position: absolute; right: 50px; width: max-content; max-width: 150px; padding: 8px 12px; background: var(--paper); border: 1px solid var(--line); }
+.hero, .is-paged .hero { grid-template-rows: auto auto 1fr; row-gap: 16px; padding-bottom: 28px; }
+.hero .hero-eyebrow { grid-column: 1 / -1; margin: 0; }
+.footer-layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr); gap: 26px 38px; padding-block: 25px; align-items: start; }
+.footer-layout .footer-directory { grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 0; gap: 22px; }
+.footer-layout .footer-contact { min-width: 0; }
+.footer-layout .footer-contact > .eyebrow { margin-bottom: 14px; }
+.footer-layout .mail-bar { gap: 10px; padding-inline: 10px; }
+.footer-layout .related-orgs { border-top: 1px solid var(--line); margin: 0; align-self: start; padding-top: 20px; }
+.footer-layout .follow-us { justify-self: start; }
+@media(max-width: 1000px) {
+  .footer-layout { grid-template-columns: minmax(0, 1fr) minmax(230px, .7fr); gap: 25px; }
+  .footer-layout .footer-directory { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+}
+@media(max-width: 800px) {
+  .scene-controls { right: 4px; width: 32px; }
+  .scene-controls .scene-buttons button { width: 30px; height: 36px; }
+  .scene-controls .gesture-meter { width: 24px; }
+  .scene-pager .scene-content { padding-right: 24px; }
+  .scene-controls .reading-toggle { right: 36px; }
+}
+@media(max-width: 540px) {
+  .hero, .is-paged .hero { grid-template-rows: auto auto auto 1fr; padding-bottom: 24px; }
+  .hero #hero-title { font-size: max(1rem, 4.35vw); }
+  .hero .hero-eyebrow { font-size: 10px; letter-spacing: .07em; }
+  .footer-layout { grid-template-columns: 1fr; }
+  .footer-layout .related-orgs { flex-wrap: wrap; gap: 10px; }
+  .footer-layout .footer-contact { grid-row: 2; }
+}

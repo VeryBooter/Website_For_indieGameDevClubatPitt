@@ -22,7 +22,7 @@ export function Header({ page }: { page: PageId }) {
   const current = `./${pages[page].file}`;
   const finish = () => { setOpen(false); setExpanded(null); };
   return <header ref={root} className="site-header wrap">
-    <a className="brand" href="./index.html" aria-label="Indie Game Dev Club at Pitt home"><img className="club-logo" src="./assets/club-logo.svg" width="56" height="56" alt="" /><span className="brand-name">Indie Game Dev Club at Pitt</span></a>
+    <a className="brand" href="./index.html" aria-label="Indie Game Dev Club at Pitt home"><img className="club-logo" src="./assets/club-logo.svg" width="56" height="56" alt="" /></a>
     <button ref={button} className="menu-toggle" aria-expanded={open} aria-controls="main-navigation" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Menu'} <span aria-hidden="true">{open ? '−' : '+'}</span></button>
     <nav id="main-navigation" aria-label="Main navigation" className={open ? 'main-nav is-open' : 'main-nav'}>
       {navigation.map(item => <div className="nav-group" key={item.label} data-current={item.href === current || item.children?.some(child => child.href === current)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setExpanded(value => value === item.label ? null : value); }}>
