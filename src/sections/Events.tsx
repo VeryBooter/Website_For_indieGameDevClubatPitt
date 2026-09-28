@@ -1,5 +1,5 @@
 import { club, destinations, events, type ClubEvent } from '../data/club';
-import { Almanac } from '../components/Almanac';
+import { Almanac, CalendarFrame } from '../components/Almanac';
 import { SocialBar } from '../components/SocialBar';
 import { SectionHeading } from '../components/ui';
 export function EventEntry({ event }: {
@@ -11,6 +11,6 @@ export function EventEntry({ event }: {
 export function Events() {
     const calendar = destinations.find(destination => destination.label === 'Calendar');
     return <section id="events" className="section wrap events-section" aria-labelledby="events-title"><div><SectionHeading number="03" label="WHERE & WHEN"><span id="events-title">Make time<br />to make things.</span></SectionHeading><p className="section-description">{club.pending.events && !events.length ? club.pending.events : 'Gatherings, workshops, and moments from the club.'}</p><SocialBar /><a className="text-link" href="./members.html">Members & events ↗</a></div>
-    <div className="calendar-area"><Almanac /><div className="calendar-bottom">{calendar?.url ? <a className="text-link" href={calendar.url}>Open the club calendar ↗</a> : <span>Shared calendar <span className="pending-tag">LINK PENDING</span></span>}</div></div>
+    <div className="calendar-area"><CalendarFrame className="calendar-outer-frame" /><Almanac /><div className="calendar-bottom">{calendar?.url ? <a className="text-link" href={calendar.url}>Open the club calendar ↗</a> : <span>Shared calendar <span className="pending-tag">LINK PENDING</span></span>}</div></div>
   </section>;
 }

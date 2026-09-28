@@ -319,9 +319,18 @@ body:has(.opening-stage) .heading-stroke path { animation: none; }
   .project-demo-copy h3 { margin: 12px 0; }
 }
 
-/* Calendar: downward terminal cursors, a traveling wave, then the dates. */
+/* Calendar: a blinking terminal block, drawn frames, and fading content. */
+.almanac { position: relative; }
 .almanac .calendar-paper { animation: none; }
+.events-section .calendar-area { position: relative; border-color: transparent; }
+.calendar-grid, .calendar-cell { border-color: transparent; }
 .calendar-grid { position: relative; }
+.calendar-frame { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.calendar-frame rect { fill: none; stroke: var(--line); stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.calendar-area:has(.is-animating) > .calendar-outer-frame rect { animation: calendar-frame-draw 1100ms ease-in-out both; }
+.almanac.is-animating .calendar-cell .calendar-frame rect { animation: calendar-frame-draw 650ms ease-in-out calc(250ms + var(--cell) * 22ms) both; }
+.calendar-terminal-cursor { position: absolute; top: 1px; right: 0; width: 9px; height: 17px; background: #39ed16; pointer-events: none; opacity: 0; }
+.almanac.is-animating .calendar-terminal-cursor { animation: calendar-terminal-blink 900ms steps(1, end) infinite; }
 .almanac .calendar-wave { opacity: 1; }
 .almanac .calendar-wave path, .almanac .calendar-wave circle { animation: none; opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 1; }
 .calendar-wave circle { transform-box: fill-box; transform-origin: center; }
@@ -329,19 +338,13 @@ body:has(.opening-stage) .heading-stroke path { animation: none; }
 .calendar-wave .eye-ccw { transform: rotate(-90deg) scaleY(-1); }
 .almanac.is-animating .calendar-wave path { animation: almanac-wave 1250ms linear calc(500ms + var(--cell) * 60ms) both; }
 .almanac.is-animating .calendar-wave circle { animation: almanac-eye 1050ms ease-out calc(620ms + var(--cell) * 60ms) both; }
-.almanac.is-animating .calendar-cell button { opacity: 0; }
-.almanac:not(.is-animating) .calendar-cell button { transition: opacity 300ms ease; }
-.calendar-scanners { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); pointer-events: none; overflow: hidden; }
-.calendar-scan-column { position: relative; }
-.calendar-scan-column i { position: absolute; width: 7px; height: 15px; left: calc(50% - 3.5px); top: 0; background: #23824b; box-shadow: 0 -8px 0 #23824b35, 0 -16px 0 #23824b16; opacity: 0; }
-.almanac.is-animating .calendar-scan-column i { animation: almanac-scan 1400ms linear calc(var(--column) * 85ms) both; }
-.almanac.is-animating .calendar-cell { animation: almanac-cell 300ms ease calc(var(--row) * 230ms + var(--column) * 85ms) both; }
-@keyframes almanac-scan {
-  0% { top: 0; opacity: 0; }
-  4%, 88% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
-@keyframes almanac-cell { from { border-color: transparent; } to { border-color: var(--line); } }
+.almanac-header, .almanac-navigation h3, .calendar-weekdays, .almanac-agenda-content,
+.almanac .calendar-cell button, .calendar-area .calendar-bottom { opacity: 1; transition: opacity 600ms ease; }
+.almanac.is-animating .almanac-header, .almanac.is-animating .almanac-navigation h3,
+.almanac.is-animating .calendar-weekdays, .almanac.is-animating .almanac-agenda-content,
+.almanac.is-animating .calendar-cell button, .calendar-area:has(.is-animating) .calendar-bottom { opacity: 0; transition: none; }
+@keyframes calendar-frame-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes calendar-terminal-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 @keyframes almanac-wave {
   0% { stroke-dashoffset: 1; opacity: 0; }
   1% { opacity: .7; }
@@ -355,8 +358,10 @@ body:has(.opening-stage) .heading-stroke path { animation: none; }
   100% { stroke-dashoffset: 0; opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .calendar-area .calendar-frame rect { animation: none !important; stroke-dashoffset: 0; }
   .almanac.is-animating .calendar-wave path, .almanac.is-animating .calendar-wave circle,
-  .almanac.is-animating .calendar-scan-column i, .almanac.is-animating .calendar-cell { animation: none; }
-  .almanac.is-animating .calendar-cell button { opacity: 1; }
-  .almanac .calendar-cell button { transition: none; }
+  .almanac.is-animating .calendar-terminal-cursor { animation: none; opacity: 0; }
+  .almanac .almanac-header, .almanac .almanac-navigation h3, .almanac .calendar-weekdays,
+  .almanac .almanac-agenda-content, .almanac .calendar-cell button,
+  .calendar-area .calendar-bottom { opacity: 1 !important; transition: none; }
 }
