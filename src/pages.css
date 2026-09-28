@@ -95,20 +95,41 @@
 .page-transition p { margin-top: 25px; font-family: var(--serif); font-size: 28px; text-align: center; }
 .page-transition > span { margin-top: 20px; font-size: 12px; letter-spacing: .13em; color: var(--muted); }
 @keyframes transition-in { from { opacity: 0; } to { opacity: 1; } }
-/* One continuous roll from the left edge; the surface does not unfold at hinges. */
-.scroll-opening { position: fixed; top: var(--header-height); height: calc(100svh - var(--header-height) - var(--controls-height)); perspective: none; }
-.scroll-sheet { position: absolute; inset: 10% 9%; background-color: #efefe4; background-image: linear-gradient(#a2ab9822 1px, transparent 1px), linear-gradient(90deg, #a2ab9822 1px, transparent 1px); background-size: 26px 26px; border: 1px solid #a2ab98; animation: unroll-sheet 2.4s ease-in-out both; color: #84947a; }
-.scroll-sheet svg { position: absolute; inset: 12% 0; height: 76%; width: 100%; }
-.scroll-caption { position: absolute; top: 22px; left: 24px; font-size: 12px; letter-spacing: .16em; }
-.scroll-caption-bottom { top: auto; bottom: 22px; }
-.scroll-roller { position: absolute; top: 8%; bottom: 8%; width: 28px; left: 9%; border-radius: 50%; background: linear-gradient(90deg, #d0cfbe, #faf9f1 45%, #b1b29e); box-shadow: 7px 0 14px #29332a25; animation: roll-across 2.4s ease-in-out both; }
-.scroll-roller > span { position: absolute; left: -4px; width: 36px; height: 12px; border: 1px solid #838875; border-radius: 50%; background: #c0c3ad; }
-.scroll-roller > span:last-child { bottom: 0; }
-.scroll-maker { position: absolute; width: 95px; height: 116px; top: 39%; left: calc(9% - 38px); animation: maker-roll 2.4s ease-in-out both; }
-.scroll-opening .intro-skip { bottom: 16px; right: 5%; }
-@keyframes unroll-sheet { 0%,12% { clip-path: inset(0 100% 0 0); opacity: 1; } 78% { clip-path: inset(0 0 0 0); opacity: 1; } 100% { clip-path: inset(0 0 0 0); opacity: 0; } }
-@keyframes roll-across { 0%,12% { left: 9%; opacity: 1; } 78% { left: 90%; opacity: 1; } 100% { left: 90%; opacity: 0; } }
-@keyframes maker-roll { 0%,12% { left: calc(9% - 38px); opacity: 1; } 78% { left: calc(90% - 38px); opacity: 1; } 100% { left: calc(90% - 38px); opacity: 0; } }
+/* The homepage is the printed sheet. Only the desk-side cover and curled edge move. */
+.map-opening {
+  position: fixed; inset: var(--header-height) 0 0; height: auto;
+  z-index: 25; overflow: hidden; perspective: none; pointer-events: auto;
+}
+.map-table-cover {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 45%, #e7e4d8, #d4d1c4);
+  animation: map-uncover var(--unroll-duration) cubic-bezier(.35,.05,.2,1) both;
+}
+.map-paper-curl {
+  position: absolute; top: 0; bottom: 0; left: 0; width: clamp(30px, 4vw, 64px);
+  transform: translateX(-50%); border-radius: 48% / 1.5%;
+  background: linear-gradient(90deg, #8c89783d 0%, #c6c1ad 14%, #eeeadd 35%, #fffdf5 59%, #e4decb 82%, #a9a38d 98%);
+  box-shadow: -12px 0 18px #332e2014, 14px 0 20px #332e2033;
+  animation: map-roll-edge var(--unroll-duration) cubic-bezier(.35,.05,.2,1) both;
+}
+.map-paper-curl::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: repeating-linear-gradient(0deg, transparent 0 7px, #786d4e08 8px 9px);
+}
+.map-curl-cap { position: absolute; left: 0; width: 100%; height: 9px; border-radius: 50%; border: 1px solid #b7b099; background: radial-gradient(ellipse, #dad3be 12%, #faf6e7 28%, #bbb49d 32%, #f5f0df 55%, #a49b82 59%, #e9e2cf 70%); }
+.map-curl-cap.cap-top { top: -3px; }
+.map-curl-cap.cap-bottom { bottom: -3px; }
+.map-opening .intro-skip { bottom: 20px; right: 6%; }
+body:has(.map-opening) .scene-controls { visibility: hidden; }
+@keyframes map-uncover {
+  0%, 8% { clip-path: inset(0 0 0 0); }
+  92%, 100% { clip-path: inset(0 0 0 100%); }
+}
+@keyframes map-roll-edge {
+  0%, 8% { left: 0; opacity: 1; }
+  92% { left: 100%; opacity: 1; }
+  100% { left: calc(100% + 80px); opacity: 0; }
+}
 @media (min-width: 801px) and (max-height: 760px) {
   :root { --header-height: 82px; --controls-height: 52px; }
   .is-paged .hero h1 { font-size: clamp(3rem,5.5vw,4.7rem); }
@@ -227,12 +248,11 @@
   .is-paged .footer-bottom > span:nth-child(2) { display: none; }
   .scroll-caption { font-size: 9px; left: 12px; top: 15px; letter-spacing: .06em; }
   .scroll-caption-bottom { top: auto; bottom: 15px; }
-  .scroll-maker { width: 72px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .scene-pager.is-paged .scene-track { transition: none; }
   .page-transition { animation: none; }
-  .scroll-opening { display: none; }
+  .map-opening { display: none; }
 }
 .scene-pager.is-paged .scene-window, .scene-pager.is-paged .page-scene { overflow: clip; }
 .reading-toggle { background: none; border: 0; border-bottom: 1px solid var(--line); font-size: 12px; padding: 8px 0; color: var(--muted); }
