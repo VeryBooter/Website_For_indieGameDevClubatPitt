@@ -1,3 +1,4 @@
+import { DrawnUnderline } from './DrawnUnderline';
 import type { ReactNode } from 'react';
 import { club, type Destination } from '../data/club';
 export function Arrow({ diagonal = false }: {
@@ -11,7 +12,7 @@ export function SectionHeading({ number, label, children }: {
     label: string;
     children: ReactNode;
 }) {
-    return <div className="section-heading"><p className="eyebrow"><span>{number}</span> {label}</p><h2>{children}</h2></div>;
+    return <div className="section-heading"><p className="eyebrow"><span>{number}</span> {label}</p><h2><DrawnUnderline>{children}</DrawnUnderline></h2></div>;
 }
 export function DestinationLink({ destination }: {
     destination: Destination;

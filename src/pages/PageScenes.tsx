@@ -1,3 +1,4 @@
+import { DrawnUnderline } from '../components/DrawnUnderline';
 import type { ReactNode } from 'react';
 import { Proposal } from './Proposal';
 import type { Scene } from '../components/ScenePager';
@@ -12,10 +13,10 @@ import { club, people, teamPhoto, sponsors, sponsorshipLevels, sponsorshipContac
 import type { PageId } from '../navigation/pages';
 function Title({ label, children, first = false }: { label: string; children: ReactNode; first?: boolean }) {
   const Tag = first ? 'h1' : 'h2';
-  return <div className="page-scene-title"><p className="eyebrow">{label}</p><Tag>{children}</Tag></div>;
+  return <div className="page-scene-title"><p className="eyebrow">{label}</p><Tag><DrawnUnderline>{children}</DrawnUnderline></Tag></div>;
 }
 function ClubIntroduction() {
-  return <section className="wrap scene-section centered-intro" id="team"><p className="eyebrow">INDIE GAME DEV CLUB @ PITT</p><h1>About our <em>club.</em></h1><p className="intro-lead">{club.mission}</p><DraftNote /><div className="intro-links"><a className="text-link" href="#community">Our community ↓</a><a className="text-link" href="./members.html">Members & events ↗</a><a className="button button-ink" href="./join.html">Join us ↗</a></div></section>;
+  return <section className="wrap scene-section centered-intro" id="team"><p className="eyebrow">INDIE GAME DEV CLUB @ PITT</p><h1><DrawnUnderline>About our <em>club.</em></DrawnUnderline></h1><p className="intro-lead">{club.mission}</p><DraftNote /><div className="intro-links"><a className="text-link" href="#community">Our community ↓</a><a className="text-link" href="./members.html">Members & events ↗</a><a className="button button-ink" href="./join.html">Join us ↗</a></div></section>;
 }
 function Community() {
   return <section className="wrap scene-section scene-split" id="community"><div><Title label="OUR COMMUNITY">Supporting game<br />makers <em>at Pitt.</em></Title><p className="body-large">{club.peopleIntro}</p><DraftNote /><a className="text-link" href="./history.html">Our history & gallery ↗</a></div><figure className="photo-slot">{teamPhoto ? <img src={teamPhoto.src} alt={teamPhoto.alt} loading="lazy" /> : <div><span className="eyebrow">THE COMMUNITY</span><h3>Room for<br />every perspective.</h3><p>A club photo will appear here once supplied and approved.</p></div>}</figure></section>;
