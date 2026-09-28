@@ -289,3 +289,74 @@ body:has(.opening-stage) .heading-stroke path { animation: none; }
 @media (prefers-reduced-motion: reduce) {
   .drawn-heading .heading-stroke path { animation: none !important; stroke-dashoffset: 0; opacity: 1; }
 }
+
+/* September PDF annotations: a quieter paper layout and explicit demo copy. */
+.join-band { background: transparent; color: var(--ink); }
+.join-inner h2 em, .join-inner .section-heading .eyebrow > span { color: var(--red); }
+.join-inner .section-description, .join-destinations > .eyebrow, .join-note,
+.join-destinations .pending-link > span:last-child { color: var(--muted); }
+.join-destinations .pending-link, .join-destinations > a { border-color: var(--line); }
+.project-demo-layout { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 72px); align-items: center; padding-block: 24px; border-top: 1px solid var(--line); }
+.project-demo-copy h3 { font-size: clamp(2rem, 3.5vw, 3.5rem); margin: 22px 0; }
+.project-demo-copy > p:not(.eyebrow) { color: var(--muted); margin-bottom: 32px; }
+.project-video-slot { aspect-ratio: 16 / 9; border: 1px solid var(--line); display: grid; place-items: center; text-align: center; }
+.project-video-slot video { width: 100%; height: 100%; object-fit: contain; }
+.project-video-slot h3 { font-size: 2.5rem; margin: 14px 0; }
+.project-video-slot p { color: var(--muted); }
+.tier-placeholders .sponsor-level { min-height: 250px; display: flex; flex-direction: column; gap: 24px; background: transparent; }
+.tier-placeholders h3 { font-size: clamp(1.7rem, 2.5vw, 2.5rem); }
+.tier-placeholders p { margin-top: auto; color: var(--muted); }
+.contact-layout { align-items: start; }
+.sponsor-contact-copy { padding-top: 0; }
+.sponsor-contact-copy h3 { margin-top: 0; }
+#supporters .supporter-wall { background: transparent; border-block: 1px solid var(--line); }
+@media (max-width: 800px) {
+  .project-demo-layout { gap: 24px; }
+  .tier-placeholders .sponsor-level { min-height: 180px; }
+}
+@media (max-width: 540px) {
+  .project-demo-layout { grid-template-columns: 1fr; }
+  .project-demo-copy h3 { margin: 12px 0; }
+}
+
+/* Calendar: downward terminal cursors, a traveling wave, then the dates. */
+.almanac .calendar-paper { animation: none; }
+.calendar-grid { position: relative; }
+.almanac .calendar-wave { opacity: 1; }
+.almanac .calendar-wave path, .almanac .calendar-wave circle { animation: none; opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.calendar-wave circle { transform-box: fill-box; transform-origin: center; }
+.calendar-wave .eye-cw { transform: rotate(-90deg); }
+.calendar-wave .eye-ccw { transform: rotate(-90deg) scaleY(-1); }
+.almanac.is-animating .calendar-wave path { animation: almanac-wave 1250ms linear calc(500ms + var(--cell) * 60ms) both; }
+.almanac.is-animating .calendar-wave circle { animation: almanac-eye 1050ms ease-out calc(620ms + var(--cell) * 60ms) both; }
+.almanac.is-animating .calendar-cell button { opacity: 0; }
+.almanac:not(.is-animating) .calendar-cell button { transition: opacity 300ms ease; }
+.calendar-scanners { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); pointer-events: none; overflow: hidden; }
+.calendar-scan-column { position: relative; }
+.calendar-scan-column i { position: absolute; width: 7px; height: 15px; left: calc(50% - 3.5px); top: 0; background: #23824b; box-shadow: 0 -8px 0 #23824b35, 0 -16px 0 #23824b16; opacity: 0; }
+.almanac.is-animating .calendar-scan-column i { animation: almanac-scan 1400ms linear calc(var(--column) * 85ms) both; }
+.almanac.is-animating .calendar-cell { animation: almanac-cell 300ms ease calc(var(--row) * 230ms + var(--column) * 85ms) both; }
+@keyframes almanac-scan {
+  0% { top: 0; opacity: 0; }
+  4%, 88% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+@keyframes almanac-cell { from { border-color: transparent; } to { border-color: var(--line); } }
+@keyframes almanac-wave {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  1% { opacity: .7; }
+  16% { stroke-dashoffset: 0; opacity: .7; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+@keyframes almanac-eye {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  1% { opacity: .8; }
+  35% { stroke-dashoffset: 0; opacity: .8; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .almanac.is-animating .calendar-wave path, .almanac.is-animating .calendar-wave circle,
+  .almanac.is-animating .calendar-scan-column i, .almanac.is-animating .calendar-cell { animation: none; }
+  .almanac.is-animating .calendar-cell button { opacity: 1; }
+  .almanac .calendar-cell button { transition: none; }
+}

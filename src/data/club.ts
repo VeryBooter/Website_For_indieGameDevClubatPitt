@@ -76,7 +76,7 @@ export type NavigationItem = { label: string; href: string; children?: { label: 
 export const navigation: NavigationItem[] = [
     { label: 'Home', href: './index.html' },
     { label: 'Projects', href: './projects.html', children: [
-      { label: '🚀 Spaceship', href: './project.html', group: 'IN DEVELOPMENT' },
+      { label: 'Legio Astralis', href: './project.html', group: 'IN DEVELOPMENT' },
       { label: 'Docs', href: './docs.html', group: 'RESOURCES' },
       { label: 'Propose a project', href: './proposal.html' },
     ] },
@@ -118,7 +118,7 @@ export const gallery: {
 
 // The sketch names this project provisionally. Never present it as a released game.
 export const projectPreview = {
-  title: 'Spaceship', titleStatus: 'Working title from the design sketch',
+  title: 'Legio Astralis', titleStatus: 'Demo · title up to Board',
   description: 'Project details are awaiting confirmation. This page reserves space for the game, its development team, and a playable demonstration.',
   githubUrl: null as string | null, videoUrl: null as string | null, poster: null as string | null,
 };
