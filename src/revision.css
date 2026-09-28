@@ -374,9 +374,11 @@ html[data-page-loading] .heading-stroke path { animation: none; }
 .calendar-weekdays .terminal-segments .terminal-prefix,
 .calendar-weekdays .terminal-segments .terminal-prefix > span { padding: 0; }
 .calendar-wave-cursor { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 2; }
-.almanac .calendar-cell button { opacity: 1; transition: opacity 600ms ease; }
-.almanac.is-animating .calendar-cell button { opacity: 0; transition: none; }
+/* Reveal each date as the wave reaches the center of its cell. */
+.almanac .calendar-cell button { opacity: 1; transition: none; }
+.almanac.is-animating .calendar-cell button { animation: calendar-date-reveal 1ms step-end calc(530ms + var(--cell) * 60ms) both; }
+@keyframes calendar-date-reveal { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) {
   .calendar-wave-cursor { display: none; }
-  .almanac .calendar-cell button { opacity: 1; transition: none; }
+  .almanac .calendar-cell button { animation: none !important; opacity: 1; transition: none; }
 }
