@@ -9,6 +9,61 @@
     <title>Building Our Game Dev Community @ Pitt | Indie Game Dev Club @ Pitt</title>
   </head>
   <body>
+    <style>
+      #boot-loader { position:fixed; inset:0; z-index:170; background:#f5f3ec; color:#2c342e; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+      #boot-loader[hidden] { display:none; }
+      #boot-loader canvas { width:168px; height:168px; }
+      #boot-loader p { margin:25px 20px; font:28px Georgia,serif; text-align:center; }
+      #boot-loader strong { background:linear-gradient(110deg,#bd2819,#b1258b,#4f36c6,#006c83); background-clip:text; -webkit-background-clip:text; color:transparent; }
+      #boot-loader img { position:absolute; width:68px; height:68px; right:24px; bottom:24px; }
+      #boot-loader button { background:none; border:0; color:#687065; cursor:pointer; opacity:0; visibility:hidden; animation:boot-help 1ms 8s forwards; }
+      @keyframes boot-help { to { opacity:1; visibility:visible; } }
+    </style>
+    <div id="boot-loader" hidden role="status" aria-label="Loading page"><canvas width="512" height="512" aria-hidden="true"></canvas><p>Loading <strong>Indie Game Dev Club at Pitt</strong></p><button type="button">Continue to page</button><img src="./assets/zaojing-chengyou-seal.svg" alt="" /></div>
+    <script>
+    (() => {
+      const overlay = document.getElementById('boot-loader');
+      overlay.hidden = false;
+      document.documentElement.dataset.pageLoading = 'true';
+      const started = performance.now();
+      let frame = 0, appReady = false, loaded = document.readyState === 'complete', fontsReady = false, done = false;
+      const finish = () => {
+        if (done) return;
+        done = true; cancelAnimationFrame(frame); overlay.remove();
+        delete document.documentElement.dataset.pageLoading;
+        window.dispatchEvent(new Event('pitt:loaded'));
+      };
+      const check = () => { if (appReady && loaded && fontsReady) setTimeout(finish, Math.max(0, 400 - (performance.now() - started))); };
+      window.addEventListener('pitt:app-ready', () => { appReady = true; check(); }, { once:true });
+      const onLoad = () => { loaded = true; Promise.resolve(document.fonts && document.fonts.ready).then(() => { fontsReady = true; check(); }); };
+      window.addEventListener('load', onLoad, { once:true });
+      if (loaded) onLoad();
+      window.addEventListener('pageshow', event => { if (event.persisted) finish(); });
+      overlay.querySelector('button').addEventListener('click', finish);
+      const ctx = overlay.querySelector('canvas').getContext('2d');
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+      function drawTaiji(ctx, progress) {
+  const size = 512, center = 256, radius = 216, wavelength = radius * 2;
+  const amplitude = radius / Math.PI, eyeHeight = radius * .5 / Math.PI, eyeRadius = radius * .28 / Math.PI;
+  const left = center - radius;
+  ctx.clearRect(0, 0, size, size); ctx.save();
+  ctx.beginPath(); ctx.arc(center, center, radius, 0, Math.PI * 2); ctx.clip();
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, size, size);
+  ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(size, 0);
+  for (let x = size; x >= 0; x -= .5) ctx.lineTo(x, center - amplitude * Math.sin(2 * Math.PI * ((x - left) / wavelength + progress)));
+  ctx.closePath(); ctx.fillStyle = '#000'; ctx.fill();
+  const first = Math.floor(-left / wavelength + progress) - 1;
+  const last = Math.ceil((size - left) / wavelength + progress) + 1;
+  for (let k = first; k <= last; k++) {
+    ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(left + (k + .25 - progress) * wavelength, center - eyeHeight, eyeRadius, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(left + (k + .75 - progress) * wavelength, center + eyeHeight, eyeRadius, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore(); ctx.beginPath(); ctx.arc(center, center, radius, 0, Math.PI * 2); ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.stroke();
+}
+      const draw = time => { if (done || !ctx) return; drawTaiji(ctx, reduced.matches ? 0 : ((time - started) / 3000) % 1); frame = requestAnimationFrame(draw); };
+      draw(started);
+    })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

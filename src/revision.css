@@ -329,8 +329,6 @@ body:has(.opening-stage) .heading-stroke path { animation: none; }
 .calendar-frame rect { fill: none; stroke: var(--line); stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 0; }
 .calendar-area:has(.is-animating) > .calendar-outer-frame rect { animation: calendar-frame-draw 1100ms ease-in-out both; }
 .almanac.is-animating .calendar-cell .calendar-frame rect { animation: calendar-frame-draw 650ms ease-in-out calc(250ms + var(--cell) * 22ms) both; }
-.calendar-terminal-cursor { position: absolute; top: 1px; right: 0; width: 9px; height: 17px; background: #39ed16; pointer-events: none; opacity: 0; }
-.almanac.is-animating .calendar-terminal-cursor { animation: calendar-terminal-blink 900ms steps(1, end) infinite; }
 .almanac .calendar-wave { opacity: 1; }
 .almanac .calendar-wave path, .almanac .calendar-wave circle { animation: none; opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 1; }
 .calendar-wave circle { transform-box: fill-box; transform-origin: center; }
@@ -338,11 +336,12 @@ body:has(.opening-stage) .heading-stroke path { animation: none; }
 .calendar-wave .eye-ccw { transform: rotate(-90deg) scaleY(-1); }
 .almanac.is-animating .calendar-wave path { animation: almanac-wave 1250ms linear calc(500ms + var(--cell) * 60ms) both; }
 .almanac.is-animating .calendar-wave circle { animation: almanac-eye 1050ms ease-out calc(620ms + var(--cell) * 60ms) both; }
-.almanac-header, .almanac-navigation h3, .calendar-weekdays, .almanac-agenda-content,
-.almanac .calendar-cell button, .calendar-area .calendar-bottom { opacity: 1; transition: opacity 600ms ease; }
-.almanac.is-animating .almanac-header, .almanac.is-animating .almanac-navigation h3,
-.almanac.is-animating .calendar-weekdays, .almanac.is-animating .almanac-agenda-content,
-.almanac.is-animating .calendar-cell button, .calendar-area:has(.is-animating) .calendar-bottom { opacity: 0; transition: none; }
+.almanac-navigation button, .calendar-area .calendar-bottom { opacity: 1; transition: opacity 600ms ease; }
+.almanac.is-animating .almanac-navigation button, .calendar-area:has(.is-animating) .calendar-bottom { opacity: 0; transition: none; pointer-events: none; }
+.terminal-text { white-space: pre-wrap; }
+.terminal-prefix { position: relative; }
+.terminal-prefix.is-typing::after { content: ''; position: absolute; left: 100%; top: .08em; width: .5em; height: .95em; background: #39ed16; animation: calendar-terminal-blink 800ms steps(1, end) infinite; }
+.terminal-remainder { visibility: hidden; }
 @keyframes calendar-frame-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes calendar-terminal-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 @keyframes almanac-wave {
@@ -360,8 +359,11 @@ body:has(.opening-stage) .heading-stroke path { animation: none; }
 @media (prefers-reduced-motion: reduce) {
   .calendar-area .calendar-frame rect { animation: none !important; stroke-dashoffset: 0; }
   .almanac.is-animating .calendar-wave path, .almanac.is-animating .calendar-wave circle,
-  .almanac.is-animating .calendar-terminal-cursor { animation: none; opacity: 0; }
-  .almanac .almanac-header, .almanac .almanac-navigation h3, .almanac .calendar-weekdays,
+  .terminal-prefix.is-typing::after { animation: none; opacity: 0; }
+  .almanac .almanac-navigation button, .almanac .almanac-header, .almanac .almanac-navigation h3, .almanac .calendar-weekdays,
   .almanac .almanac-agenda-content, .almanac .calendar-cell button,
   .calendar-area .calendar-bottom { opacity: 1 !important; transition: none; }
 }
+
+html[data-page-loading] .terminal-letters, html[data-page-loading] .terminal-cursor { animation-play-state: paused; }
+html[data-page-loading] .heading-stroke path { animation: none; }

@@ -49,8 +49,8 @@ export function TaijiTransition() {
       pending.current = url.href;
       const targetPage = Object.values(pages).find(page => url.pathname.endsWith('/' + page.file));
       setDestination(targetPage?.label || link.getAttribute('aria-label') || link.textContent?.trim() || 'Next page');
-      // Navigation does not depend on the canvas, fonts, media, or a network prefetch.
-      timeout = setTimeout(() => location.assign(url.href), matchMedia('(prefers-reduced-motion: reduce)').matches ? 100 : 850);
+      // Paint the outgoing overlay, then keep it mounted until the next document takes over.
+      timeout = setTimeout(() => location.assign(url.href), matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 120);
     };
     const key = (event: KeyboardEvent) => { if (event.key === 'Escape') reset(); };
     document.addEventListener('click', click); window.addEventListener('keydown', key); window.addEventListener('pageshow', reset);

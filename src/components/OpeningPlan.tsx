@@ -8,6 +8,13 @@ export function OpeningPlan({ replay = 0 }: {
     replay?: number;
 }) {
     const [playing, setPlaying] = useState(false);
+    const [pageReady, setPageReady] = useState(false);
+    useEffect(() => {
+        const ready = () => setPageReady(true);
+        if (!document.documentElement.dataset.pageLoading) ready();
+        window.addEventListener('pitt:loaded', ready);
+        return () => window.removeEventListener('pitt:loaded', ready);
+    }, []);
     const skipButton = useRef<HTMLButtonElement>(null);
     const lastReplay = useRef(0);
     const finish = () => {
@@ -16,7 +23,7 @@ export function OpeningPlan({ replay = 0 }: {
         setPlaying(false);
     };
     useEffect(() => {
-        if (!club.introEnabled)
+        if (!pageReady || !club.introEnabled)
             return;
         const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const requested = replay > lastReplay.current;
@@ -41,7 +48,7 @@ export function OpeningPlan({ replay = 0 }: {
         window.addEventListener('keydown', onKey);
         motion.addEventListener('change', onMotion);
         return () => { clearTimeout(timeout); window.removeEventListener('keydown', onKey); motion.removeEventListener('change', onMotion); };
-    }, [replay]);
+    }, [replay, pageReady]);
     if (!playing)
         return null;
     return <div className="opening-stage scroll-opening" data-testid="opening-plan">

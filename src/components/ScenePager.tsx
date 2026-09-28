@@ -61,7 +61,7 @@ export function ScenePager({ scenes }: { scenes: Scene[] }) {
     };
     document.addEventListener('click', click);
     const editable = (target: EventTarget | null) => target instanceof Element && !!target.closest('input,textarea,select,[contenteditable="true"],video');
-    const blocked = () => !!document.querySelector('.page-transition,.opening-stage,.nav-disclosure[aria-expanded="true"]') || document.querySelector('.menu-toggle')?.getAttribute('aria-expanded') === 'true';
+    const blocked = () => !!document.querySelector('#boot-loader,.page-transition,.opening-stage,.nav-disclosure[aria-expanded="true"]') || document.querySelector('.menu-toggle')?.getAttribute('aria-expanded') === 'true';
     const onWheel = (event: WheelEvent) => {
       if (readingRef.current || event.ctrlKey || editable(event.target) || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
       event.preventDefault();
