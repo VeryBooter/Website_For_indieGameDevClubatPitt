@@ -19,6 +19,8 @@ for (const [file, html] of rendered) {
   assert.equal(ids.length, new Set(ids).size, `${file}: IDs must be unique`);
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file}: one main heading`);
   assert(!html.includes('href="#"'), `${file}: no dead links`);
+  assert(html.includes('class="continuous-page"') && !html.includes('class="scene-pager'), `${file}: uses native document scrolling`);
+  assert(!html.includes('scene-controls'), `${file}: no page-turn controls`);
   assert(!html.includes('opening-stage'), `${file}: static HTML starts usable`);
   assert(!html.includes('>People</a>'), `${file}: navigation uses Team`);
   for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {

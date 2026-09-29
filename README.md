@@ -35,7 +35,7 @@ npm run preview
 - `events.html` — events and calendar.
 - `join.html` — “Join iGDC at Pitt”: three steps for Discord, email, and events, alongside the upcoming Game Jam.
 
-Paged routes also have a final footer scene. History, Proposal, Join, and Wiki use continuous scrolling. The top navigation performs document navigation, not homepage anchor scrolling. Titles and descriptions are defined in `src/navigation/pages.ts`. All output pages are siblings and use relative links/assets, including when hosted under a GitHub repository path.
+All routes use native, continuous document scrolling and end with the shared footer. The top navigation performs document navigation, not homepage anchor scrolling. Titles and descriptions are defined in `src/navigation/pages.ts`. All output pages are siblings and use relative links/assets, including when hosted under a GitHub repository path.
 
 ## Motion and interaction
 
@@ -43,11 +43,9 @@ Paged routes also have a final footer scene. History, Proposal, Join, and Wiki u
 
 **Taiji navigation:** `TaijiTransition.tsx` adapts the supplied `taiji-loading.html`: a fixed circular window, equal-scale sine wave moving left, and eyes locked to the wave. Ordinary same-tab clicks to another HTTP(S) page show it immediately and begin navigation after 120 ms. On every local page, the early HTML loader stays visible until the document, fonts, and React app are ready; a delayed fallback button lets the visitor continue if something fails to load. Same-page anchors, modifier clicks, downloads, and new-tab links retain their expected behavior. Escape cancels a pending transition; browser Back/Forward does not get trapped by an old overlay. The original reference is retained at `public/assets/taiji-loading-reference.html`.
 
-**Sustained scrolling:** A page stays still while a gesture accumulates. A direction-consistent wheel gesture needs at least 3 samples, 240 ms, and 180 normalized pixels. Touch uses 72 pixels. Gaps longer than 190 ms or direction reversals reset the gesture. Once triggered, the entire scene track moves exactly one scene over 760 ms at constant speed. Input is ignored while moving, and wheel inertia must go quiet before another transition. Change these values in `src/navigation/scrollIntent.ts`.
+**Native scrolling:** Every route uses ordinary document scrolling. Wheel, trackpad, touch, and keyboard input retain browser behavior. There is no gesture accumulation, fixed scene turn, nested reading mode, or page-turn control. Existing section IDs and `#scene-…` links remain valid; direct-entry anchors are resolved after loading finishes.
 
-The fixed right-edge controls also support explicit previous/next turns; Page Up/Down, arrows, Space/Shift-Space, Home, and End work outside interactive controls. Inactive scenes are inert and hidden from assistive technology. Short screens and long records can expose **Read this scene**, an explicit opt-in to scroll within the current scene without changing the scene track; **Back to page turns** restores gesture paging.
-
-Reduced-motion mode keeps the fixed page turns but removes travel animation, skips the opening, and uses a brief static taiji. Without JavaScript, all scenes appear in normal document order with working links; mobile navigation remains visible. No backend or email collection is included.
+Reduced-motion mode skips the opening and uses a static taiji. Without JavaScript, all sections appear in normal document order with working links; mobile navigation remains visible. No backend or email collection is included.
 
 ## Edit content
 
@@ -73,14 +71,14 @@ The hero now uses `ControllerAssembly.tsx`, an animated SVG built from the club 
 
 - `src/navigation/pages.ts`: route metadata and portable relative destinations.
 - `src/pages/PageScenes.tsx`: each page's scene composition, based on the supplied September 26 PDFs.
-- `src/components/ScenePager.tsx`: scene state, intent-driven wheel/touch/keyboard behavior, focus, deep links, overflow reading.
-- `src/navigation/scrollIntent.ts`: pure, testable gesture thresholds.
+- `src/App.tsx`: continuous section layout on every route and initial anchor restoration after loading.
+- `src/components/ScenePager.tsx` and `src/navigation/scrollIntent.ts`: legacy paging implementation, retained in source but no longer mounted or shipped in the app bundle.
 - `src/components/TaijiTransition.tsx`: supplied sine-wave loading animation and cross-document navigation.
 - `src/components/OpeningPlan.tsx`: one-sided scroll opening.
 - `src/sections/`: reusable content sections.
 - `src/styles.css`: original shared design system; `src/pages.css`: multipage and scene layouts; `src/revision.css`: fourth-edition navigation, footer, typography, calendar, and page layouts.
 - `scripts/prerender.tsx`: generates all 13 HTML pages after Vite builds.
-- `scripts/check.tsx`: verifies every page's headings/IDs and all internal links, content approval behavior, intro policy, and sustained-scroll intent.
+- `scripts/check.tsx`: verifies every page's headings/IDs and all internal links, content approval behavior, intro policy, native scrolling on all routes, and legacy gesture utilities.
 
 ## GitHub Pages
 
@@ -92,7 +90,7 @@ The workflow builds and uploads `dist/`. Every `.html` route exists on disk, so 
 
 ## Design interpretation
 
-The PDFs are layout references: the general site map and footer; a split project-details/video page; Team's four scenes; Sponsorship's five scenes; and Home's three scenes. The latest direct request replaces the earlier free-scrolling behavior with sustained-gesture scene turns and replaces hinged blueprint unfolding with a one-sided roll. Website titles and the Team label follow the explicit user wording. Sketch names, sponsor relationships, videos, and URLs remain unconfirmed until supplied as actual club content.
+The PDFs are layout references: the general site map and footer; a split project-details/video page; Team's four scenes; Sponsorship's five scenes; and Home's three scenes. The latest direct request restores native scrolling on every page; the opening remains a one-sided paper roll. Website titles and the Team label follow the explicit user wording. Sketch names, sponsor relationships, videos, and URLs remain unconfirmed until supplied as actual club content.
 
 ## Fourth edition
 
