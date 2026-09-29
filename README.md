@@ -22,30 +22,30 @@ npm run preview
 ## Independent pages
 
 - `index.html` — **Home**. The exact browser title is **Building Our Game Dev Community @ Pitt | Indie Game Dev Club @ Pitt**. Three main scenes: one-line title and vertical terminal typing, asymmetric Untitled links, animated almanac/calendar.
-- `projects.html` — project showcase, documentation, proposal entry, and a project-detail preview link.
-- `project.html` — project detail: introduction/GitHub on the left, demonstration video on the right. “Spaceship” is the sketch's working title, visibly marked as tentative.
+- `projects.html` — project showcase, Wiki, proposal entry, and a project-detail preview link.
+- `project.html` — project detail: introduction/GitHub on the left, demonstration video on the right. “Legio Astralis” is the sketch's working title, visibly marked as tentative.
 - `team.html` — **Team**, not People. Three main scenes: club introduction, community description/photo, join information. Member profiles live on Members & Events.
 - `sponsorship.html` — five main scenes: introduction/index, supporters, why sponsor, sponsorship levels, contact.
-- `docs.html` — an independent documentation page with an Untitled entry and contents navigation.
+- `wiki.html` — the temporary local Wiki, with an Untitled entry and contents navigation. Move the entry to the future Wiki domain once that domain is confirmed.
 - `proposal.html` — continuous form: why this idea, the proposal, and people/time/budget; downloads a Markdown draft locally until the Microsoft Forms URL is supplied.
 - `history.html` — continuous alternating timeline and mosaic Gallery.
 - `members.html` — member directory and Events/calendar.
 - `untitled.html` — complete temporary destination for Home’s undecided content, with introduction, details, and next-step scenes.
 - `about.html` — retained purpose/history/gallery page for existing links.
 - `events.html` — events and calendar.
-- `join.html` — joining information and social destinations.
+- `join.html` — “Join iGDC at Pitt”: three steps for Discord, email, and events, alongside the upcoming Game Jam.
 
-Paged routes also have a final footer scene. History and Proposal use continuous scrolling as shown in the fourth-edition sketches. The top navigation performs document navigation, not homepage anchor scrolling. Titles and descriptions are defined in `src/navigation/pages.ts`. All output pages are siblings and use relative links/assets, including when hosted under a GitHub repository path.
+Paged routes also have a final footer scene. History, Proposal, Join, and Wiki use continuous scrolling. The top navigation performs document navigation, not homepage anchor scrolling. Titles and descriptions are defined in `src/navigation/pages.ts`. All output pages are siblings and use relative links/assets, including when hosted under a GitHub repository path.
 
 ## Motion and interaction
 
-**Opening scroll:** Home's first session visit shows a paper plan unrolling from left to right, with the roller and developer moving along its edge. It lasts 2.4 seconds, offers Skip/Escape, and can be replayed from Home's footer. Session storage is optional; blocked storage does not prevent rendering. Deep links skip the opening. `club.introEnabled = false` disables it.
+**Opening scroll:** Home's first session visit reveals the actual homepage as a sheet unrolls from left to right along a desk, with its contents revealed behind the curling edge. It lasts 2.8 seconds, offers Skip/Escape, and can be replayed from Home's footer. Session storage is optional; blocked storage does not prevent rendering. Deep links skip the opening. `club.introEnabled = false` disables it.
 
-**Taiji navigation:** `TaijiTransition.tsx` adapts the supplied `taiji-loading.html`: a fixed circular window, equal-scale sine wave moving left, and eyes locked to the wave. Ordinary same-tab clicks to another HTML page play it for approximately 850 ms before navigation. Same-page anchors, modifier clicks, downloads, and new-tab links retain their expected behavior. Escape cancels a pending transition; browser Back/Forward does not get trapped by an old overlay. The original reference is retained at `public/assets/taiji-loading-reference.html`.
+**Taiji navigation:** `TaijiTransition.tsx` adapts the supplied `taiji-loading.html`: a fixed circular window, equal-scale sine wave moving left, and eyes locked to the wave. Ordinary same-tab clicks to another HTTP(S) page show it immediately and begin navigation after 120 ms. On every local page, the early HTML loader stays visible until the document, fonts, and React app are ready; a delayed fallback button lets the visitor continue if something fails to load. Same-page anchors, modifier clicks, downloads, and new-tab links retain their expected behavior. Escape cancels a pending transition; browser Back/Forward does not get trapped by an old overlay. The original reference is retained at `public/assets/taiji-loading-reference.html`.
 
 **Sustained scrolling:** A page stays still while a gesture accumulates. A direction-consistent wheel gesture needs at least 3 samples, 240 ms, and 180 normalized pixels. Touch uses 72 pixels. Gaps longer than 190 ms or direction reversals reset the gesture. Once triggered, the entire scene track moves exactly one scene over 760 ms at constant speed. Input is ignored while moving, and wheel inertia must go quiet before another transition. Change these values in `src/navigation/scrollIntent.ts`.
 
-The fixed bottom controls also support explicit previous/next turns; Page Up/Down, arrows, Space/Shift-Space, Home, and End work outside interactive controls. Inactive scenes are inert and hidden from assistive technology. Short screens and long records can expose **Read this scene**, an explicit opt-in to scroll within the current scene without changing the scene track; **Back to page turns** restores gesture paging.
+The fixed right-edge controls also support explicit previous/next turns; Page Up/Down, arrows, Space/Shift-Space, Home, and End work outside interactive controls. Inactive scenes are inert and hidden from assistive technology. Short screens and long records can expose **Read this scene**, an explicit opt-in to scroll within the current scene without changing the scene track; **Back to page turns** restores gesture paging.
 
 Reduced-motion mode keeps the fixed page turns but removes travel animation, skips the opening, and uses a brief static taiji. Without JavaScript, all scenes appear in normal document order with working links; mobile navigation remains visible. No backend or email collection is included.
 
@@ -67,7 +67,7 @@ Reduced-motion mode keeps the fixed page turns but removes travel animation, ski
 
 `public/assets/club-logo-original.webp` is the supplied original. `public/assets/club-logo.svg` is an editable manual vector approximation of its controller, colored buttons, and IGD lettering; it is not a claim of a pixel-exact trace. The SVG is used in the header/footer and copied to `public/favicon.svg`. Replace both if the approved master changes.
 
-The hero artwork is generated conceptual game art, not an existing club project. Its provenance and exact original generation prompt remain in `public/assets/ARTWORK.md`.
+The hero now uses `ControllerAssembly.tsx`, an animated SVG built from the club mark. It welds the outline (0.25–2.65 s), drops in the D-pad and slides in the shoulder caps together (2.7–3.6 s), then lights purple, red, green, and blue clockwise (3.75–4.83 s). IGD lettering follows. The assembly starts after loading and the opening scroll, with an explicit Replay button. Reduced-motion and static HTML show the complete mark. The previous concept artwork and its provenance remain in `public/assets/ARTWORK.md`.
 
 ## Source structure
 
@@ -96,14 +96,18 @@ The PDFs are layout references: the general site map and footer; a split project
 
 ## Fourth edition
 
-The header order is Home → Projects → Team → Sponsorship, followed by a bright **Join us** button. Projects discloses Spaceship, Docs, and Propose a project; Team discloses History & Gallery and Members & Events. Footer categories link to every generated route. Escape closes disclosures and restores focus.
+The header order is Home → Projects → Team → Wiki → Sponsorship → Game Jam, followed by a bright **Join us** button. Projects discloses Legio Astralis and Propose a project; Team discloses History & Gallery and Members & Events. Footer categories link to every generated route. Escape closes disclosures and restores focus.
 
-`public/assets/sealed-letter.svg` follows the envelope and round wax-seal motif drawn in the fourth-edition PDF. Footer email links point to joining information until verified `destinations` and `contactEmail` values are provided; no email is collected. The Follow Us bar contains YouTube, Instagram, X, and Facebook SVG marks. Unconfigured channels are visibly pending, not fake external links.
+`public/assets/sealed-letter.svg` follows the envelope and round wax-seal motif drawn in the fourth-edition PDF. Join and footer email buttons use `yul424@pitt.edu` with a prefilled joining message. This opens the visitor’s mail client; it does not collect addresses or subscribe anyone automatically. `destinations` retains a pending mailing-list URL for a future subscription service. The Discord invitation is `https://discord.gg/kqns4AvEN`. The Follow Us bar contains YouTube, Instagram, X, and Facebook SVG marks. Unconfigured channels are visibly pending, not fake external links.
 
-Home's Imagine·Make·Play rail reveals upright letters down the page with a horizontal block cursor. The almanac animates the hand-drawn wave and eyes sequentially through its cells, and turns the calendar sheet when switching months. Reduced-motion mode reveals everything immediately. Browser-local date determines the initial month after hydration; the published events remain the sole source for event markers. No calendar service integration is implied.
+Home's Imagine·Make·Play rail reveals upright letters down the page with a horizontal block cursor. The almanac animates the hand-drawn wave and eyes sequentially through its cells, and replays when switching months. Dates appear as the wave reaches each cell; label text is typed by a terminal block cursor. Reduced-motion mode reveals everything immediately. Browser-local date determines the initial month after hydration; the published events remain the sole source for event markers. No calendar service integration is implied.
 
 The PDFs supply layout sketches. The latest direct message determines the final labels and hierarchy where older sketches differ. Untitled is deliberate placeholder content, not a confirmed club claim. History's timeline remains undated until its source records are provided.
 
 ## Site seal
 
 The original contemporary bird-worm-inspired 造境成遊 seal is shared by all routes via `SiteSeal`. It stays fixed at the lower-right corner, including the taiji navigation overlay. During that overlay it grows slightly and plays a brief stamping entrance; reduced motion keeps it static. The decoration does not intercept pointer input. The web asset is `public/assets/zaojing-chengyou-seal.svg`; editable artwork and research notes live in `output/seal/`.
+
+## Game Jam
+
+The Game Jam entry links to [Pitt’s Games 4 Social Impact 2026](https://itch.io/jam/pitt-games-4-social-impact-2026). Its published October 16–18 schedule is included in `events`, with links to the organizer’s page for details and registration. The top navigation, Join page, event section, and footer all expose the link.

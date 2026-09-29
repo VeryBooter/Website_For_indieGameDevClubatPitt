@@ -7,7 +7,7 @@ export function ProjectCard({ project, featured = false }: {
     return <article className={`project-card ${featured ? 'featured-project' : ''}`}>
     {project.artwork && <img src={project.artwork} alt={project.artworkAlt} loading="lazy" width="900" height="600"/>}
     <div className="project-card-copy"><p className="eyebrow">{project.status}</p><h3>{project.name}</h3><p>{project.description}</p>
-      <details id={`project-${project.id}`}><summary>Project details <span aria-hidden="true">+</span></summary><p>Contributors: {project.contributors.length ? project.contributors.join(', ') : 'Awaiting confirmation'}</p><p>Technologies: {project.technologies.length ? project.technologies.join(', ') : 'Awaiting confirmation'}</p><div className="resource-links">{project.detailUrl && <a href={project.detailUrl}>Full project page ↗</a>}{project.documentationUrl && <a href={project.documentationUrl}>Documentation ↗</a>}{project.githubUrl && <a href={project.githubUrl}>GitHub ↗</a>}</div></details>
+      <details id={`project-${project.id}`}><summary>Project details <span aria-hidden="true">+</span></summary><p>Contributors: {project.contributors.length ? project.contributors.join(', ') : 'Awaiting confirmation'}</p><p>Technologies: {project.technologies.length ? project.technologies.join(', ') : 'Awaiting confirmation'}</p><div className="resource-links">{project.detailUrl && <a href={project.detailUrl}>Full project page ↗</a>}{project.documentationUrl && <a href={project.documentationUrl}>Wiki ↗</a>}{project.githubUrl && <a href={project.githubUrl}>GitHub ↗</a>}</div></details>
     </div></article>;
 }
 export function Projects({ showSidebar = true }: { showSidebar?: boolean }) {

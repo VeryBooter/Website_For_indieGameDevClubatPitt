@@ -51,7 +51,7 @@ export type SponsorshipLevel = {
 };
 export const club = {
     name: 'Indie Game Dev Club @ Pitt',
-    shortName: 'Indie Game Dev',
+    shortName: 'iGDC',
     introEnabled: true,
     copyStatus: 'draft' as 'draft' | 'approved',
     tagline: 'A little curiosity. A world of possibilities.',
@@ -77,17 +77,18 @@ export const navigation: NavigationItem[] = [
     { label: 'Home', href: './index.html' },
     { label: 'Projects', href: './projects.html', children: [
       { label: 'Legio Astralis', href: './project.html', group: 'IN DEVELOPMENT' },
-      { label: 'Docs', href: './docs.html', group: 'RESOURCES' },
       { label: 'Propose a project', href: './proposal.html' },
     ] },
     { label: 'Team', href: './team.html', children: [
       { label: 'History & Gallery', href: './history.html' },
       { label: 'Members & Events', href: './members.html' },
     ] },
+    { label: 'Wiki', href: './wiki.html' },
     { label: 'Sponsorship', href: './sponsorship.html' },
+    { label: 'Game Jam', href: 'https://itch.io/jam/pitt-games-4-social-impact-2026' },
 ];
 export const destinations: Destination[] = [
-    { label: 'Discord', url: null, pending: 'Invite pending' },
+    { label: 'Discord', url: 'https://discord.gg/kqns4AvEN', pending: 'Invite pending' },
     { label: 'Mailing list', url: null, pending: 'Signup pending' },
     { label: 'Calendar', url: null, pending: 'Link pending' },
     { label: 'LinkedIn', url: null, pending: 'Link pending' },
@@ -99,7 +100,17 @@ export const destinations: Destination[] = [
 ];
 export const projects: Project[] = [];
 export const people: Person[] = [];
-export const events: ClubEvent[] = [];
+// Schedule published on the event's itch.io page, checked September 28, 2026.
+export const gameJam = {
+    title: "Pitt’s Games 4 Social Impact 2026",
+    url: 'https://itch.io/jam/pitt-games-4-social-impact-2026',
+    dates: 'October 16–18, 2026',
+};
+export const events: ClubEvent[] = [
+    { id: 'g4si-orientation-2026', title: 'Games 4 Social Impact · Orientation', date: '2026-10-16', time: '5–9 pm', location: 'University of Pittsburgh · see event details', description: 'Orientation, team registration, keynote, and meeting fellow jammers.', url: gameJam.url },
+    { id: 'g4si-jam-2026', title: 'Games 4 Social Impact · Game Jam', date: '2026-10-17', time: '9 am Saturday–noon Sunday', location: 'University of Pittsburgh · see event details', description: 'Create a digital or analog game about social impact. See the event page for registration and eligibility.', url: gameJam.url },
+    { id: 'g4si-showcase-2026', title: 'Games 4 Social Impact · Judging & Awards', date: '2026-10-18', time: 'Judging 2–4 pm · Awards 4–5 pm', location: 'University of Pittsburgh · see event details', description: 'Evaluation by judges and participants, followed by the awards ceremony.', url: gameJam.url },
+];
 export const sponsors: Sponsor[] = [];
 export const sponsorshipLevels: SponsorshipLevel[] = [];
 export const sponsorshipContact: Destination = { label: 'Contact the club', url: null, pending: club.pending.contact };
@@ -125,4 +136,5 @@ export const projectPreview = {
 export const teamPhoto: { src: string; alt: string } | null = null;
 export const sponsorshipPacket: Destination = { label: 'Sponsorship information', url: null, pending: 'Approved sponsorship document pending' };
 
-export const contactEmail: string | null = null;
+export const contactEmail = 'yul424@pitt.edu';
+export const joinEmailUrl = `mailto:${contactEmail}?subject=${encodeURIComponent('Joining iGDC at Pitt')}&body=${encodeURIComponent('Hi!\n\nI would like to join iGDC at Pitt.\n\nMy name: \nMy interests: \n\nThank you!')}`;

@@ -11,5 +11,5 @@ export function App({ page = 'home' }: { page?: PageId }) {
   const [replay, setReplay] = useState(0);
   useEffect(() => { window.dispatchEvent(new Event('pitt:app-ready')); }, []);
   const scenes = useMemo(() => [...pageScenes(page), { id: 'footer', label: 'Site directory', content: <Footer onReplay={page === 'home' ? () => { location.hash = 'home'; setReplay(value => value + 1); } : undefined} /> }], [page]);
-  return <><a className="skip-link" href="#main">Skip to content</a><Header page={page} /><main id="main" tabIndex={-1}>{page === 'history' || page === 'proposal' ? <div className="continuous-page">{scenes.map(scene => <div key={scene.id} id={`scene-${scene.id}`}>{scene.content}</div>)}</div> : <ScenePager scenes={scenes} />}</main>{page === 'home' && <OpeningPlan replay={replay} />}<TaijiTransition /><SiteSeal /></>;
+  return <><a className="skip-link" href="#main">Skip to content</a><Header page={page} /><main id="main" tabIndex={-1}>{page === 'history' || page === 'proposal' || page === 'join' || page === 'wiki' ? <div className="continuous-page">{scenes.map(scene => <div key={scene.id} id={`scene-${scene.id}`}>{scene.content}</div>)}</div> : <ScenePager scenes={scenes} />}</main>{page === 'home' && <OpeningPlan replay={replay} />}<TaijiTransition /><SiteSeal /></>;
 }

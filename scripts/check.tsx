@@ -11,7 +11,7 @@ import { DestinationLink } from '../src/components/ui';
 import { ProjectCard } from '../src/sections/Projects';
 import { EventEntry } from '../src/sections/Events';
 import { SponsorLevel } from '../src/sections/Sponsorship';
-import { destinations, projects, sponsorshipContact, proposalDestination, relatedOrganizations, events } from '../src/data/club';
+import { destinations, projects, sponsorshipContact, proposalDestination, relatedOrganizations, events, gameJam, contactEmail } from '../src/data/club';
 const rendered = new Map<string, string>((Object.keys(pages) as PageId[]).map(page => [pages[page].file, renderToStaticMarkup(<App page={page} />)]));
 let checkedLinks = 0;
 for (const [file, html] of rendered) {
@@ -37,6 +37,14 @@ for (const page of Object.keys(pages) as PageId[]) assert.equal(pageFromPath(`/r
 assert.equal(pageScenes('sponsorship').length, 5);
 assert.equal(pageScenes('team').length, 3);
 assert.equal(pageScenes('home').length, 3);
+const joining = rendered.get('join.html')!;
+assert(rendered.has('wiki.html') && !rendered.has('docs.html'), 'Wiki replaces the Docs route');
+for (const html of rendered.values()) assert(!/href="[^\"]*docs\.html/.test(html), 'No navigation points to the removed Docs page');
+assert(joining.includes('https://discord.gg/kqns4AvEN'), 'Joining uses the supplied Discord invitation');
+assert(joining.includes(`mailto:${contactEmail}?subject=`), 'Joining offers a prefilled email');
+assert(!joining.includes('<form') && !joining.includes('Join the email list'), 'A contact email must not masquerade as newsletter signup');
+assert(joining.includes(gameJam.url) && joining.includes('./events.html'), 'Joining exposes the jam and event calendar');
+assert(!joining.includes('class="scene-pager'), 'The simplified Join page uses continuous reading');
 const urlIsValid = (url: string) => /^(https:\/\/|mailto:|\.\/|#)/.test(url);
 for (const destination of [...destinations, sponsorshipContact, proposalDestination, ...relatedOrganizations]) {
     assert(destination.url === null || urlIsValid(destination.url), `Unsupported URL: ${destination.label}`);
