@@ -39,13 +39,13 @@ All routes use native, continuous document scrolling and end with the shared foo
 
 ## Motion and interaction
 
-**Opening scroll:** Home's first session visit reveals the actual homepage as a sheet unrolls from left to right along a desk, with its contents revealed behind the curling edge. It lasts 2.8 seconds, offers Skip/Escape, and can be replayed from Home's footer. Session storage is optional; blocked storage does not prevent rendering. Deep links skip the opening. `club.introEnabled = false` disables it.
+**Homepage entrance:** The map/scroll opening has been removed. Home appears after the shared loading screen, then the controller logo assembles. There is no opening replay button.
 
 **Taiji navigation:** `TaijiTransition.tsx` adapts the supplied `taiji-loading.html`: a fixed circular window, equal-scale sine wave moving left, and eyes locked to the wave. Ordinary same-tab clicks to another HTTP(S) page show it immediately and begin navigation after 120 ms. On every local page, the early HTML loader stays visible until the document, fonts, and React app are ready; a delayed fallback button lets the visitor continue if something fails to load. Same-page anchors, modifier clicks, downloads, and new-tab links retain their expected behavior. Escape cancels a pending transition; browser Back/Forward does not get trapped by an old overlay. The original reference is retained at `public/assets/taiji-loading-reference.html`.
 
 **Native scrolling:** Every route uses ordinary document scrolling. Wheel, trackpad, touch, and keyboard input retain browser behavior. There is no gesture accumulation, fixed scene turn, nested reading mode, or page-turn control. Existing section IDs and `#scene-…` links remain valid; direct-entry anchors are resolved after loading finishes.
 
-Reduced-motion mode skips the opening and uses a static taiji. Without JavaScript, all sections appear in normal document order with working links; mobile navigation remains visible. No backend or email collection is included.
+Reduced-motion mode shows the complete logo and uses a static taiji. Without JavaScript, all sections appear in normal document order with working links; mobile navigation remains visible. No backend or email collection is included.
 
 ## Edit content
 
@@ -65,7 +65,7 @@ Reduced-motion mode skips the opening and uses a static taiji. Without JavaScrip
 
 `public/assets/club-logo-original.webp` is the supplied original. `public/assets/club-logo.svg` is an editable manual vector approximation of its controller, colored buttons, and IGD lettering; it is not a claim of a pixel-exact trace. The SVG is used in the header/footer and copied to `public/favicon.svg`. Replace both if the approved master changes.
 
-The hero now uses `ControllerAssembly.tsx`, an animated SVG built from the club mark. It welds the outline (0.25–2.65 s), drops in the D-pad and slides in the shoulder caps together (2.7–3.6 s), then lights purple, red, green, and blue clockwise (3.75–4.83 s). IGD lettering follows. The assembly starts after loading and the opening scroll, with an explicit Replay button. Reduced-motion and static HTML show the complete mark. The previous concept artwork and its provenance remain in `public/assets/ARTWORK.md`.
+The hero now uses `ControllerAssembly.tsx`, an animated SVG built from the club mark. It welds the outline (0.25–2.65 s), drops in the D-pad and slides in the shoulder caps together (2.7–3.6 s), then lights purple, red, green, and blue clockwise (3.75–4.83 s). IGD lettering follows. The assembly starts after loading, with an explicit Replay button. Reduced-motion and static HTML show the complete mark. The previous concept artwork and its provenance remain in `public/assets/ARTWORK.md`.
 
 ## Source structure
 
@@ -74,7 +74,7 @@ The hero now uses `ControllerAssembly.tsx`, an animated SVG built from the club 
 - `src/App.tsx`: continuous section layout on every route and initial anchor restoration after loading.
 - `src/components/ScenePager.tsx` and `src/navigation/scrollIntent.ts`: legacy paging implementation, retained in source but no longer mounted or shipped in the app bundle.
 - `src/components/TaijiTransition.tsx`: supplied sine-wave loading animation and cross-document navigation.
-- `src/components/OpeningPlan.tsx`: one-sided scroll opening.
+- `src/components/OpeningPlan.tsx`: retired scroll opening, no longer mounted or shipped in the app bundle.
 - `src/sections/`: reusable content sections.
 - `src/styles.css`: original shared design system; `src/pages.css`: multipage and scene layouts; `src/revision.css`: fourth-edition navigation, footer, typography, calendar, and page layouts.
 - `scripts/prerender.tsx`: generates all 13 HTML pages after Vite builds.
@@ -90,7 +90,7 @@ The workflow builds and uploads `dist/`. Every `.html` route exists on disk, so 
 
 ## Design interpretation
 
-The PDFs are layout references: the general site map and footer; a split project-details/video page; Team's four scenes; Sponsorship's five scenes; and Home's three scenes. The latest direct request restores native scrolling on every page; the opening remains a one-sided paper roll. Website titles and the Team label follow the explicit user wording. Sketch names, sponsor relationships, videos, and URLs remain unconfirmed until supplied as actual club content.
+The PDFs are layout references: the general site map and footer; a split project-details/video page; Team's four scenes; Sponsorship's five scenes; and Home's three scenes. The latest direct request restores native scrolling on every page; the map/scroll opening has been removed. Website titles and the Team label follow the explicit user wording. Sketch names, sponsor relationships, videos, and URLs remain unconfirmed until supplied as actual club content.
 
 ## Fourth edition
 

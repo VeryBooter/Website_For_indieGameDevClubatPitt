@@ -21,7 +21,7 @@ export function ControllerAssembly() {
     const check = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
-        if (!inView || played.current || motion.matches || document.documentElement.dataset.pageLoading || document.querySelector('.opening-stage,.page-transition')) return;
+        if (!inView || played.current || motion.matches || document.documentElement.dataset.pageLoading || document.querySelector('.page-transition')) return;
         played.current = true;
         setPlaying(true);
       });

@@ -52,7 +52,7 @@ export type SponsorshipLevel = {
 export const club = {
     name: 'Indie Game Dev Club @ Pitt',
     shortName: 'iGDC',
-    introEnabled: true,
+    introEnabled: false,
     copyStatus: 'draft' as 'draft' | 'approved',
     tagline: 'A little curiosity. A world of possibilities.',
     mission: 'A space for different perspectives to meet through making games. Bring your ideas, explore the craft, and find your next collaborator.',
