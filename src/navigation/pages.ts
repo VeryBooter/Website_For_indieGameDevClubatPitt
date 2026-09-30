@@ -1,9 +1,7 @@
 export const pages = {
   home: { file: 'index.html', label: 'Home', title: 'Building Our Game Dev Community @ Pitt | Indie Game Dev Club @ Pitt', description: 'Building our game development community at Pitt. Explore projects, meet the team, and find out how to join.' },
   projects: { file: 'projects.html', label: 'Projects', title: 'Projects | Indie Game Dev Club @ Pitt', description: 'Game projects, development documentation, and project proposals.' },
-  project: { file: 'project.html', label: 'Project preview', title: 'Project Preview | Indie Game Dev Club @ Pitt', description: 'A project detail preview with space for a game demonstration and development resources.' },
   wiki: { file: 'wiki.html', label: 'Wiki', title: 'Wiki | iGDC at Pitt', description: 'The iGDC knowledge library for project notes, resources, and guides.' },
-  proposal: { file: 'proposal.html', label: 'Propose a project', title: 'Propose a Project | Indie Game Dev Club @ Pitt', description: 'Outline a game idea, its purpose, and the resources it needs.' },
   history: { file: 'history.html', label: 'History', title: 'History & Gallery | Indie Game Dev Club @ Pitt', description: 'The club timeline and gallery.' },
   members: { file: 'members.html', label: 'Members', title: 'Members & Events | Indie Game Dev Club @ Pitt', description: 'Club members, advisors, and the event calendar.' },
   untitled: { file: 'untitled.html', label: 'TBD', title: 'TBD | Indie Game Dev Club @ Pitt', description: 'TBD. This page is awaiting confirmed content.' },
@@ -19,3 +17,12 @@ export function pageFromPath(path: string): PageId {
   return (Object.keys(pages) as PageId[]).find(id => pages[id].file === file) ?? 'home';
 }
 export function pageHref(id: PageId, anchor?: string) { return `./${pages[id].file}${anchor ? `#${anchor}` : ''}`; }
+
+// Preserve old bookmarks while keeping project content on one canonical page.
+export const legacyProjectRoutes: Record<string, string> = {
+  'project.html': './projects.html#project-preview',
+  'proposal.html': './projects.html#propose',
+};
+export function legacyProjectRedirect(path: string) {
+  return legacyProjectRoutes[path.split('/').pop() ?? ''];
+}

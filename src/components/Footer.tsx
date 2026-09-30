@@ -3,7 +3,7 @@ import { DestinationLink } from './ui';
 import { SocialBar } from './SocialBar';
 export const footerGroups = [
   { label: 'Home', href: './index.html', links: [{ label: 'TBD', href: './untitled.html' }, { label: 'Join us', href: './join.html' }] },
-  { label: 'Projects', href: './projects.html', links: [{ label: 'Legio Astralis', href: './project.html' }, { label: 'Proposal form', href: './proposal.html' }, { label: 'Game Jam', href: gameJam.url }] },
+  { label: 'Projects', href: './projects.html', links: [{ label: 'Legio Astralis', href: './projects.html#project-preview' }, { label: 'Proposal form', href: './projects.html#propose' }, { label: 'Game Jam', href: gameJam.url }] },
   { label: 'About the club', href: './about.html', links: [{ label: 'History', href: './history.html' }, { label: 'Gallery', href: './history.html#gallery' }, { label: 'Team', href: './members.html' }, { label: 'Club overview', href: './team.html' }, { label: 'Events', href: './events.html' }] },
   { label: 'Wiki', href: './wiki.html', links: [{ label: 'Untitled', href: './wiki.html#untitled-wiki' }] },
   { label: 'Sponsorship', href: './sponsorship.html', links: [{ label: 'Supporters', href: './sponsorship.html#supporters' }, { label: 'Why sponsor?', href: './sponsorship.html#why-sponsor' }, { label: 'Levels', href: './sponsorship.html#levels' }, { label: 'Contact', href: './sponsorship.html#sponsor-contact' }] },
@@ -16,6 +16,6 @@ export function Footer() {
     <div className="footer-contact"><p className="eyebrow">{mailing?.url ? 'GET THE LATEST BY EMAIL' : 'GET IN TOUCH'}</p><a className="mail-bar" href={mailing?.url || joinEmailUrl}><img src="./assets/sealed-letter.svg" width="52" height="40" alt="Sealed letter" /><span>{mailing?.url ? 'Join the mailing list' : 'Say hello by email'}</span><span aria-hidden="true">↗</span></a><a className="contact-email" href={`mailto:${contactEmail}`}>{contactEmail}</a></div>
     <div className="related-orgs"><span className="small-label">RELATED WEBSITES</span>{relatedOrganizations.length ? relatedOrganizations.map(destination => <DestinationLink key={destination.label} destination={destination}/>) : <span>Club links coming soon.</span>}</div>
     <SocialBar /></div>
-    <div className="footer-bottom"><span>{club.name}</span><a href="#main">Back to top ↑</a></div>
+    <div className="footer-bottom"><span>{club.name}</span><span className="vibe-coded-note">This website is vibe coded with AI assistance.</span><a href="#main">Back to top ↑</a></div>
   </footer>;
 }

@@ -75,10 +75,7 @@ export const club = {
 export type NavigationItem = { label: string; href: string; children?: { label: string; href: string; group?: string }[] };
 export const navigation: NavigationItem[] = [
     { label: 'Home', href: './index.html' },
-    { label: 'Projects', href: './projects.html', children: [
-      { label: 'Legio Astralis', href: './project.html', group: 'IN DEVELOPMENT' },
-      { label: 'Propose a project', href: './proposal.html' },
-    ] },
+    { label: 'Projects', href: './projects.html' },
     { label: 'Team', href: './team.html', children: [
       { label: 'History & Gallery', href: './history.html' },
       { label: 'Members & Events', href: './members.html' },

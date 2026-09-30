@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { App } from '../src/App';
 import { Footer } from '../src/components/Footer';
 import { monthCells } from '../src/components/Almanac';
-import { pages, pageFromPath, type PageId } from '../src/navigation/pages';
+import { pages, pageFromPath, legacyProjectRedirect, type PageId } from '../src/navigation/pages';
 import { pageScenes } from '../src/pages/PageScenes';
 import { ScrollIntent } from '../src/navigation/scrollIntent';
 import { shouldPlayIntro } from '../src/components/introPolicy';
@@ -104,7 +104,17 @@ assert(!homepage.includes('WORLD_01') && !homepage.includes('Keep scrolling'));
 assert(homepage.includes('href="./untitled.html"'));
 assert(!homepage.match(/<h1[^>]*>[\s\S]*?<br\s*\/?>([\s\S]*?)<\/h1>/));
 for (const channel of ['YouTube', 'Instagram', 'X', 'Facebook']) assert(directory.includes(`${channel} — link pending`));
-assert(!rendered.get('proposal.html')!.includes('class="scene-pager'), 'Proposal form uses continuous reading');
+const projectsPage = rendered.get('projects.html')!;
+assert(!rendered.has('project.html') && !rendered.has('proposal.html'), 'Projects has one canonical content page');
+for (const id of ['projects', 'project-preview', 'resources', 'propose']) assert(projectsPage.includes(`id="${id}"`), `Merged Projects contains ${id}`);
+assert(projectsPage.includes('<form') && projectsPage.includes('Download your draft'), 'The full proposal form is embedded in Projects');
+assert.equal(legacyProjectRedirect('/club/project.html'), './projects.html#project-preview');
+assert.equal(legacyProjectRedirect('/club/proposal.html'), './projects.html#propose');
+assert.equal(legacyProjectRedirect('/club/projects.html'), undefined);
+for (const html of rendered.values()) {
+  assert(!/href="\.\/(?:project|proposal)\.html/.test(html), 'Site navigation uses the merged page');
+  assert(html.includes('This website is vibe coded with AI assistance.'), 'Every page identifies the website as vibe coded');
+}
 assert(!rendered.get('history.html')!.includes('class="scene-pager'), 'History timeline uses continuous reading');
 const leap = monthCells(2028, 1);
 assert.equal(leap.filter(Boolean).length, 29, 'Leap-year February has 29 days');

@@ -22,12 +22,12 @@ npm run preview
 ## Independent pages
 
 - `index.html` — **Home**. The exact browser title is **Building Our Game Dev Community @ Pitt | Indie Game Dev Club @ Pitt**. Three main scenes: one-line title and vertical terminal typing, asymmetric Untitled links, animated almanac/calendar.
-- `projects.html` — project showcase, Wiki, proposal entry, and a project-detail preview link.
-- `project.html` — project detail: introduction/GitHub on the left, demonstration video on the right. “Legio Astralis” is the sketch's working title, visibly marked as tentative.
+- `projects.html` — all project content in one continuous page: overview, project details/demo, Wiki resource entry, and the full proposal form. Section links jump within this page.
+- `project.html` — compatibility redirect to `projects.html#project-preview`.
 - `team.html` — **Team**, not People. Three main scenes: club introduction, community description/photo, join information. Member profiles live on Members & Events.
 - `sponsorship.html` — five main scenes: introduction/index, supporters, why sponsor, sponsorship levels, contact.
 - `wiki.html` — the temporary local Wiki, with an Untitled entry and contents navigation. Move the entry to the future Wiki domain once that domain is confirmed.
-- `proposal.html` — continuous form: why this idea, the proposal, and people/time/budget; downloads a Markdown draft locally until the Microsoft Forms URL is supplied.
+- `proposal.html` — compatibility redirect to `projects.html#propose`. The embedded proposal form downloads a Markdown draft locally until the Microsoft Forms URL is supplied.
 - `history.html` — continuous alternating timeline and mosaic Gallery.
 - `members.html` — member directory and Events/calendar.
 - `untitled.html` — complete temporary destination for Home’s undecided content, with introduction, details, and next-step scenes.
@@ -77,7 +77,7 @@ The hero now uses `ControllerAssembly.tsx`, an animated SVG built from the club 
 - `src/components/OpeningPlan.tsx`: retired scroll opening, no longer mounted or shipped in the app bundle.
 - `src/sections/`: reusable content sections.
 - `src/styles.css`: original shared design system; `src/pages.css`: multipage and scene layouts; `src/revision.css`: fourth-edition navigation, footer, typography, calendar, and page layouts.
-- `scripts/prerender.tsx`: generates all 13 HTML pages after Vite builds.
+- `scripts/prerender.tsx`: generates 11 content pages and 2 compatibility redirects after Vite builds.
 - `scripts/check.tsx`: verifies every page's headings/IDs and all internal links, content approval behavior, intro policy, native scrolling on all routes, and legacy gesture utilities.
 
 ## GitHub Pages
@@ -94,7 +94,7 @@ The PDFs are layout references: the general site map and footer; a split project
 
 ## Fourth edition
 
-The header order is Home → Projects → Team → Wiki → Sponsorship → Game Jam, followed by a bright **Join us** button. Projects discloses Legio Astralis and Propose a project; Team discloses History & Gallery and Members & Events. Footer categories link to every generated route. Escape closes disclosures and restores focus.
+The header order is Home → Projects → Team → Wiki → Sponsorship → Game Jam, followed by a bright **Join us** button. Projects opens the unified project page; Team discloses History & Gallery and Members & Events. Footer categories link to every generated route. Escape closes disclosures and restores focus.
 
 `public/assets/sealed-letter.svg` follows the envelope and round wax-seal motif drawn in the fourth-edition PDF. Join and footer email buttons use `yul424@pitt.edu` with a prefilled joining message. This opens the visitor’s mail client; it does not collect addresses or subscribe anyone automatically. `destinations` retains a pending mailing-list URL for a future subscription service. The Discord invitation is `https://discord.gg/kqns4AvEN`. The Follow Us bar contains YouTube, Instagram, X, and Facebook SVG marks. Unconfigured channels are visibly pending, not fake external links.
 
@@ -109,3 +109,7 @@ The original contemporary bird-worm-inspired 造境成遊 seal is shared by all 
 ## Game Jam
 
 The Game Jam entry links to [Pitt’s Games 4 Social Impact 2026](https://itch.io/jam/pitt-games-4-social-impact-2026). Its published October 16–18 schedule is included in `events`, with links to the organizer’s page for details and registration. The top navigation, Join page, event section, and footer all expose the link.
+
+## Website disclosure
+
+The homepage and shared footer explicitly state: “This website is vibe coded with AI assistance.” This describes the website, not the development process of club games.

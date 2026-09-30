@@ -7,7 +7,7 @@ export function Hero() {
     <h1 id="hero-title" tabIndex={-1}><DrawnUnderline>Indie Game Dev Club <em>at Pitt</em></DrawnUnderline></h1>
     <p className="eyebrow hero-eyebrow"><span className="red-dash"/> A SPACE FOR GAME MAKERS</p>
     <div className="hero-copy">
-      <p className="hero-tagline">{club.tagline}</p>
+      <p className="hero-tagline">{club.tagline}</p><p className="vibe-coded-note">This website is vibe coded with AI assistance.</p>
       <div className="hero-actions"><a className="button button-join" href="./join.html">Join us <span aria-hidden="true">↗</span></a><a className="text-link" href="./untitled.html">TBD <span aria-hidden="true">↗</span></a></div>
     </div>
     <ControllerAssembly />

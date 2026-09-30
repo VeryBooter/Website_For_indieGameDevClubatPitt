@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { proposalDestination } from '../data/club';
 export function Proposal() {
   const [saved, setSaved] = useState(false);
-  return <section className="wrap proposal-page" id="propose"><p className="eyebrow">PROJECTS / PROPOSAL</p><h1><DrawnUnderline>Have <em>an idea?</em></DrawnUnderline></h1><p className="body-large">Start with the idea. Outline what it needs to become a game.</p>
+  return <section className="wrap proposal-page" id="propose"><p className="eyebrow">PROJECTS / PROPOSAL</p><h2><DrawnUnderline>Have <em>an idea?</em></DrawnUnderline></h2><p className="body-large">Start with the idea. Outline what it needs to become a game.</p>
     <form className="proposal-form" onChange={() => setSaved(false)} onSubmit={event => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);

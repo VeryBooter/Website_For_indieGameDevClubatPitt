@@ -1,9 +1,15 @@
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { App } from './App';
-import { pageFromPath, pages } from './navigation/pages';
+import { pageFromPath, pages, legacyProjectRedirect } from './navigation/pages';
 import './styles.css';
 import './pages.css';
 import './revision.css';
+const legacyTarget = legacyProjectRedirect(location.pathname);
+if (legacyTarget) {
+  const target = new URL(legacyTarget, location.href);
+  target.search = location.search;
+  location.replace(target.href);
+} else {
 document.documentElement.classList.add('js');
 const page = pageFromPath(location.pathname);
 document.title = pages[page].title;
@@ -17,3 +23,5 @@ if (document.documentElement.dataset.pageLoading) {
 }
 if (root.hasChildNodes()) hydrateRoot(root, <App page={page} />);
 else createRoot(root).render(<App page={page} />);
+
+}
