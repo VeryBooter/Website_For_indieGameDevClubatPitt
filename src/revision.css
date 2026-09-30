@@ -265,16 +265,6 @@ body:has(.opening-stage) .terminal-letters, body:has(.opening-stage) .terminal-c
   .footer-layout .related-orgs { flex-wrap: wrap; gap: 10px; }
   .footer-layout .footer-contact { grid-row: 2; }
 }
-/* A shared red seal occupies the edge gutter, below the page-turn controls. */
-.site-seal { position: fixed; right: max(12px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); width: 44px; height: 44px; z-index: 160; pointer-events: none; user-select: none; }
-.site-seal img { display: block; width: 100%; height: 100%; }
-body:has(.page-transition) .site-seal { width: 68px; height: 68px; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); animation: seal-arrive 480ms cubic-bezier(.2,.7,.2,1) both; }
-@keyframes seal-arrive { from { opacity: 0; transform: scale(1.28) rotate(-7deg); } 70% { opacity: 1; transform: scale(.97) rotate(-2deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
-@media(max-width:800px) {
-  .site-seal { width: 28px; height: 28px; right: max(6px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); }
-  body:has(.page-transition) .site-seal { width: 52px; height: 52px; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); }
-}
-@media(prefers-reduced-motion:reduce) { body:has(.page-transition) .site-seal { animation: none; } }
 .drawn-heading { position: relative; display: inline-block; max-width: 100%; padding-bottom: .16em; }
 .heading-stroke { position: absolute; left: 0; bottom: 0; width: 100%; height: .22em; overflow: visible; pointer-events: none; color: var(--red, #9b4033); }
 .heading-stroke path { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }

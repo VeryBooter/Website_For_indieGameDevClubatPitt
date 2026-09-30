@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { App } from '../src/App';
 import { Footer } from '../src/components/Footer';
@@ -23,6 +24,7 @@ for (const [file, html] of rendered) {
   assert(!html.includes('scene-controls'), `${file}: no page-turn controls`);
   assert(!html.includes('opening-stage'), `${file}: static HTML starts usable`);
   assert(!html.includes('>People</a>'), `${file}: navigation uses Team`);
+  assert(!html.includes('class="site-seal"') && !html.includes('zaojing-chengyou-seal.svg'), `${file}: Chinese seal removed from general page`);
   for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
     if (!href.startsWith('#') && !href.startsWith('./')) continue;
     const url = new URL(href, `https://example.com/club/${file}`);
@@ -121,4 +123,6 @@ assert.equal(leap.filter(Boolean).length, 29, 'Leap-year February has 29 days');
 assert.equal(monthCells(2027, 1).filter(Boolean).length, 28);
 assert.equal(monthCells(2026, 7).length, 42, 'Six-week months retain every date');
 assert.equal(monthCells(2026, 1)[0], 1, 'Sunday-start month has no leading blanks');
+const indexSource = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+assert(indexSource.includes('id="boot-loader"') && indexSource.includes('zaojing-chengyou-seal.svg'), 'Loading page retains Chinese seal');
 console.log('Passed fourth revision: footer covers all routes, independent Untitled page, continuous forms/history, social bar, leap years and six-week calendars.');

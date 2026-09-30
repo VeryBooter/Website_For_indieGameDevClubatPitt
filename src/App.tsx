@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react';
-import { SiteSeal } from './components/SiteSeal';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { TaijiTransition } from './components/TaijiTransition';
@@ -23,5 +22,5 @@ export function App({ page = 'home' }: { page?: PageId }) {
     return () => { cancelAnimationFrame(frame); window.removeEventListener('pitt:loaded', restoreAnchor); };
   }, []);
   const scenes = useMemo(() => [...pageScenes(page), { id: 'footer', label: 'Site directory', content: <Footer /> }], [page]);
-  return <><a className="skip-link" href="#main">Skip to content</a><Header page={page} /><main id="main" tabIndex={-1}><div className="continuous-page">{scenes.map(scene => <div key={scene.id} id={`scene-${scene.id}`}>{scene.content}</div>)}</div></main><TaijiTransition /><SiteSeal /></>;
+  return <><a className="skip-link" href="#main">Skip to content</a><Header page={page} /><main id="main" tabIndex={-1}><div className="continuous-page">{scenes.map(scene => <div key={scene.id} id={`scene-${scene.id}`}>{scene.content}</div>)}</div></main><TaijiTransition /></>;
 }

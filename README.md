@@ -104,7 +104,7 @@ The PDFs supply layout sketches. The latest direct message determines the final 
 
 ## Site seal
 
-The original contemporary bird-worm-inspired 造境成遊 seal is shared by all routes via `SiteSeal`. It stays fixed at the lower-right corner, including the taiji navigation overlay. During that overlay it grows slightly and plays a brief stamping entrance; reduced motion keeps it static. The decoration does not intercept pointer input. The web asset is `public/assets/zaojing-chengyou-seal.svg`; editable artwork and research notes live in `output/seal/`.
+The original contemporary bird-worm-inspired 造境成遊 seal is featured on the initial loading screen (`#boot-loader` in `index.html`) at the lower-right corner. It is not displayed across general page layouts. The web asset is `public/assets/zaojing-chengyou-seal.svg`; editable artwork and research notes live in `output/seal/`.
 
 ## Game Jam
 
