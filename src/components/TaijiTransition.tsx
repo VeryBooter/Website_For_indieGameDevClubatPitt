@@ -25,7 +25,7 @@ function TaijiCanvas() {
     const ctx = ref.current?.getContext('2d'); if (!ctx) return;
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
     let frame = 0, started = performance.now();
-    const draw = (time: number) => { drawTaiji(ctx, motion.matches ? 0 : ((time - started) / 3000) % 1); if (!motion.matches) frame = requestAnimationFrame(draw); };
+    const draw = (time: number) => { drawTaiji(ctx, motion.matches ? 0 : ((time - started) / 1500) % 1); if (!motion.matches) frame = requestAnimationFrame(draw); };
     draw(started);
     return () => cancelAnimationFrame(frame);
   }, []);

@@ -16,7 +16,7 @@
       #boot-loader p { margin:25px 20px; font:28px Georgia,serif; text-align:center; }
       #boot-loader strong { background:linear-gradient(110deg,#bd2819,#b1258b,#4f36c6,#006c83); background-clip:text; -webkit-background-clip:text; color:transparent; }
       #boot-loader img { position:absolute; width:68px; height:68px; right:24px; bottom:24px; }
-      #boot-loader button { background:none; border:0; color:#687065; cursor:pointer; opacity:0; visibility:hidden; animation:boot-help 1ms 8s forwards; }
+      #boot-loader button { background:none; border:0; color:#687065; cursor:pointer; opacity:0; visibility:hidden; animation:boot-help 1ms 1.5s forwards; }
       @keyframes boot-help { to { opacity:1; visibility:visible; } }
     </style>
     <div id="boot-loader" hidden role="status" aria-label="Loading page"><canvas width="512" height="512" aria-hidden="true"></canvas><p>Loading <strong>Indie Game Dev Club at Pitt</strong></p><button type="button">Continue to page</button><img src="./assets/zaojing-chengyou-seal.svg" alt="" /></div>
@@ -60,7 +60,7 @@
   }
   ctx.restore(); ctx.beginPath(); ctx.arc(center, center, radius, 0, Math.PI * 2); ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.stroke();
 }
-      const draw = time => { if (done || !ctx) return; drawTaiji(ctx, reduced.matches ? 0 : ((time - started) / 3000) % 1); frame = requestAnimationFrame(draw); };
+      const draw = time => { if (done || !ctx) return; drawTaiji(ctx, reduced.matches ? 0 : ((time - started) / 1500) % 1); frame = requestAnimationFrame(draw); };
       draw(started);
     })();
     </script>

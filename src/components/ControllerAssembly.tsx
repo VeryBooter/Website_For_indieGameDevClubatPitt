@@ -43,13 +43,13 @@ export function ControllerAssembly() {
     const started = performance.now();
     let frame = 0;
     const trace = (time: number) => {
-      const progress = Math.min(1, Math.max(0, (time - started - 250) / 2400));
+      const progress = Math.min(1, Math.max(0, (time - started - 50) / 650));
       const point = curve.getPointAtLength(progress * length);
       spark.setAttribute('transform', `translate(${point.x} ${point.y})`);
       if (progress < 1) frame = requestAnimationFrame(trace);
     };
     frame = requestAnimationFrame(trace);
-    const done = setTimeout(() => setPlaying(false), 5400);
+    const done = setTimeout(() => setPlaying(false), 1500);
     return () => { cancelAnimationFrame(frame); clearTimeout(done); };
   }, [playing, replay]);
   return <figure ref={root} className="hero-art controller-assembly">
@@ -62,7 +62,7 @@ export function ControllerAssembly() {
         <path ref={path} className="assembly-outline" d={outline} pathLength="1" fill="none" stroke="#fff" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
         <g className="assembly-shoulders" fill="none" stroke="#fff" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round"><path d="M32 28l2-5c2-3 10-3 13-1l2 6m31 0 1-5c2-3 10-3 13-1l2 7" /></g>
         <g className="assembly-dpad"><path d="M36 39h6v7h7v6h-7v7h-6v-7h-7v-6h7Z" fill="#fff" /></g>
-        {lights.map((light, index) => <g className="assembly-button" key={light.color} style={{ '--light-delay': `${3750 + index * 280}ms` } as CSSProperties}>
+        {lights.map((light, index) => <g className="assembly-button" key={light.color} style={{ '--light-delay': `${950 + index * 70}ms` } as CSSProperties}>
           <circle className="assembly-button-glow" cx={light.x} cy={light.y} r="6" fill={light.color} filter={`url(#${id}-glow)`} />
           <circle cx={light.x} cy={light.y} r="4" fill={light.color} />
         </g>)}

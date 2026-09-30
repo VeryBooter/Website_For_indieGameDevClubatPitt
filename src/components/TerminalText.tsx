@@ -14,9 +14,9 @@ export function TerminalText({ text, play, replay = 0, delay = 0, segmented = fa
     const type = () => {
       if (cancelled) return;
       setCount(++next);
-      if (next < text.length) timer = setTimeout(type, segmented ? 130 : 45);
+      if (next < text.length) timer = setTimeout(type, segmented ? 65 : 25);
     };
-    timer = setTimeout(type, delay + 120);
+    timer = setTimeout(type, delay + 40);
     motion.addEventListener('change', finish);
     return () => { finish(); motion.removeEventListener('change', finish); };
   }, [text, play, replay, delay, segmented]);

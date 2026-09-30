@@ -14,11 +14,11 @@ export function CalendarWaveCursor({ rows, active, replay }: { rows: number; act
     const started = performance.now();
     let frame = 0;
     const draw = (time: number) => {
-      const elapsed = time - started - 500;
-      const row = Math.floor(elapsed / 420);
+      const elapsed = time - started - 200;
+      const row = Math.floor(elapsed / 150);
       if (row >= rows) { pen.style.opacity = '0'; return; }
       if (row >= 0) {
-        const point = paths[row].getPointAtLength((elapsed % 420) / 420 * lengths[row]);
+        const point = paths[row].getPointAtLength((elapsed % 150) / 150 * lengths[row]);
         pen.setAttribute('transform', `translate(${point.x} ${point.y})`);
         pen.style.opacity = '1';
       }

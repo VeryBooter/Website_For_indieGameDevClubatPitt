@@ -42,7 +42,7 @@ export function Almanac() {
       clearTimeout(timer);
       if (!visible || preference.matches) { setReady(true); return; }
       setReady(false);
-      timer = setTimeout(() => setReady(true), 4200);
+      timer = setTimeout(() => setReady(true), 1450);
     };
     begin();
     preference.addEventListener('change', begin);
@@ -53,17 +53,17 @@ export function Almanac() {
     locked.current = true;
     setTurn(value => value + 1); setSelected(null);
     setMonth(value => { const date = new Date(Date.UTC(value.year, value.month + delta, 1)); return { year: date.getUTCFullYear(), month: date.getUTCMonth() }; });
-    timeout.current = setTimeout(() => { locked.current = false; }, 600);
+    timeout.current = setTimeout(() => { locked.current = false; }, 300);
   };
   const title = new Date(Date.UTC(month.year, month.month)).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
   const toISO = (day: number) => `${month.year}-${String(month.month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
   const calendar = destinations.find(destination => destination.label === 'Calendar');
   const matching = events.filter(event => selected ? event.date === selected : event.date.startsWith(`${month.year}-${String(month.month + 1).padStart(2, '0')}`));
   return <div ref={root} className={`almanac${visible ? ' is-visible' : ''}${!ready ? ' is-animating' : ''}`}>
-    <div className="almanac-header"><span className="eyebrow"><TerminalText text="CLUB ALMANAC" play={visible} replay={turn} /></span><span className="almanac-year"><TerminalText text={String(month.year)} play={visible} replay={turn} delay={200} /></span></div>
-    <div className="almanac-navigation"><button aria-label="Previous month" onClick={() => change(-1)}>←</button><h3 aria-live="polite"><TerminalText text={title} play={visible} replay={turn} delay={400} /></h3><button aria-label="Next month" onClick={() => change(1)}>→</button></div>
+    <div className="almanac-header"><span className="eyebrow"><TerminalText text="CLUB ALMANAC" play={visible} replay={turn} /></span><span className="almanac-year"><TerminalText text={String(month.year)} play={visible} replay={turn} delay={80} /></span></div>
+    <div className="almanac-navigation"><button aria-label="Previous month" onClick={() => change(-1)}>←</button><h3 aria-live="polite"><TerminalText text={title} play={visible} replay={turn} delay={150} /></h3><button aria-label="Next month" onClick={() => change(1)}>→</button></div>
     <div className="calendar-paper" key={`${month.year}-${month.month}-${turn}`} >
-      <div className="calendar-weekdays" aria-hidden="true"><TerminalText text="SMTWTFS" play={visible} replay={turn} delay={900} segmented /></div>
+      <div className="calendar-weekdays" aria-hidden="true"><TerminalText text="SMTWTFS" play={visible} replay={turn} delay={250} segmented /></div>
       <div className="calendar-grid" role="group" aria-label={title} inert={!ready || undefined}>{monthCells(month.year, month.month).map((day, index) => {
         const date = day ? toISO(day) : '';
         const hasEvent = events.some(event => event.date === date);
@@ -74,7 +74,7 @@ export function Almanac() {
         </div>;
       })}<CalendarWaveCursor rows={monthCells(month.year, month.month).length / 7} active={!ready} replay={turn} /></div>
     </div>
-    <div className="almanac-agenda" aria-live="polite" aria-busy={!ready}><div className="almanac-agenda-content" inert={!ready || undefined}>{selected && <p className="small-label">{selected}</p>}{matching.length ? matching.map(event => selected ? <div key={event.id}><strong><TerminalText text={event.title} play={visible} replay={turn} delay={0} /></strong><p>{event.date} · {event.time} · {event.location}</p>{event.url && <a className="text-link" href={event.url}>Event details ↗</a>}</div> : <button key={event.id} className="almanac-event-summary" onClick={() => setSelected(event.date)}><time dateTime={event.date}>{Number(event.date.slice(-2))}</time><strong>{event.title}</strong><span aria-hidden="true">↗</span></button>) : <p><TerminalText text={selected ? 'No confirmed events on this date.' : 'No confirmed events this month.'} play={visible} replay={turn} delay={selected ? 0 : 3500} /></p>}</div></div>
-    <div className="calendar-bottom">{calendar?.url ? <a className="text-link" href={calendar.url}><TerminalText text="Open the club calendar ↗" play={visible} replay={turn} delay={3500} /></a> : <span><TerminalText text="Shared calendar" play={visible} replay={turn} delay={3500} /><span className="pending-tag"><TerminalText text="LINK PENDING" play={visible} replay={turn} delay={3500} /></span></span>}</div>
+    <div className="almanac-agenda" aria-live="polite" aria-busy={!ready}><div className="almanac-agenda-content" inert={!ready || undefined}>{selected && <p className="small-label">{selected}</p>}{matching.length ? matching.map(event => selected ? <div key={event.id}><strong><TerminalText text={event.title} play={visible} replay={turn} delay={0} /></strong><p>{event.date} · {event.time} · {event.location}</p>{event.url && <a className="text-link" href={event.url}>Event details ↗</a>}</div> : <button key={event.id} className="almanac-event-summary" onClick={() => setSelected(event.date)}><time dateTime={event.date}>{Number(event.date.slice(-2))}</time><strong>{event.title}</strong><span aria-hidden="true">↗</span></button>) : <p><TerminalText text={selected ? 'No confirmed events on this date.' : 'No confirmed events this month.'} play={visible} replay={turn} delay={selected ? 0 : 1200} /></p>}</div></div>
+    <div className="calendar-bottom">{calendar?.url ? <a className="text-link" href={calendar.url}><TerminalText text="Open the club calendar ↗" play={visible} replay={turn} delay={1200} /></a> : <span><TerminalText text="Shared calendar" play={visible} replay={turn} delay={1200} /><span className="pending-tag"><TerminalText text="LINK PENDING" play={visible} replay={turn} delay={1200} /></span></span>}</div>
   </div>;
 }

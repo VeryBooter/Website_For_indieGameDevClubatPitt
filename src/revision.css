@@ -30,9 +30,9 @@
 .hero .hero-art figcaption span:last-child { font-size: 11px; }
 .hero .hero-rail, .is-paged .hero-rail { top: 32px; left: 0; display: flex; flex-direction: column; writing-mode: horizontal-tb; letter-spacing: 0; gap: 18px; }
 .vertical-terminal { --letter-height: 17px; --letters: 17; position: relative; width: 14px; height: calc((var(--letters) + 1) * var(--letter-height)); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: var(--letter-height); text-align: center; }
-.terminal-letters { display: flex; flex-direction: column; clip-path: inset(0 0 100% 0); animation: type-down 3.4s steps(17, end) .3s forwards; }
+.terminal-letters { display: flex; flex-direction: column; clip-path: inset(0 0 100% 0); animation: type-down 1.2s steps(17, end) .15s forwards; }
 .terminal-letters > span { height: var(--letter-height); }
-.terminal-cursor { position: absolute; top: 0; left: 1px; width: 12px; height: 5px; background: var(--red); animation: cursor-down 3.4s steps(17, end) .3s forwards, cursor-blink .7s step-end 6; }
+.terminal-cursor { position: absolute; top: 0; left: 1px; width: 12px; height: 5px; background: var(--red); animation: cursor-down 1.2s steps(17, end) .15s forwards, cursor-blink .35s step-end 4; }
 .hero .rail-line { height: 55px; }
 body:has(.opening-stage) .terminal-letters, body:has(.opening-stage) .terminal-cursor { animation-play-state: paused; }
 @keyframes type-down { to { clip-path: inset(0); } }
@@ -80,9 +80,9 @@ body:has(.opening-stage) .terminal-letters, body:has(.opening-stage) .terminal-c
 .calendar-cell { position: relative; aspect-ratio: 1.4; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; }
 .calendar-wave { position: absolute; inset: 0; width: 100%; height: 100%; stroke: var(--red); stroke-width: 1.3; fill: none; opacity: .2; pointer-events: none; }
 .calendar-wave path { stroke-dasharray: 85; stroke-dashoffset: 85; }
-.is-visible .calendar-wave path { animation: wave-write .35s linear calc(var(--cell) * 35ms) both; }
+.is-visible .calendar-wave path { animation: wave-write .25s linear calc(var(--cell) * 20ms) both; }
 .calendar-wave circle { opacity: 0; }
-.is-visible .calendar-wave circle { animation: wave-eye .2s ease calc(var(--cell) * 35ms + .2s) both; }
+.is-visible .calendar-wave circle { animation: wave-eye .15s ease calc(var(--cell) * 20ms + .12s) both; }
 .calendar-cell button { background: transparent; border: none; width: 100%; height: 100%; z-index: 1; font-size: 14px; position: relative; }
 .calendar-cell button:hover { background: #9b40331a; }
 .calendar-cell button[aria-current="date"] { font-weight: 700; color: var(--red); box-shadow: inset 0 0 0 1px var(--red); }
@@ -268,7 +268,7 @@ body:has(.opening-stage) .terminal-letters, body:has(.opening-stage) .terminal-c
 .drawn-heading { position: relative; display: inline-block; max-width: 100%; padding-bottom: .16em; }
 .heading-stroke { position: absolute; left: 0; bottom: 0; width: 100%; height: .22em; overflow: visible; pointer-events: none; color: var(--red, #9b4033); }
 .heading-stroke path { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
-.drawn-heading.is-visible .heading-stroke path { animation: draw-heading-stroke 950ms cubic-bezier(.22,.61,.36,1) 250ms both; }
+.drawn-heading.is-visible .heading-stroke path { animation: draw-heading-stroke 650ms cubic-bezier(.22,.61,.36,1) 150ms both; }
 .page-scene[aria-hidden="true"] .heading-stroke path { animation: none; }
 body:has(.opening-stage) .heading-stroke path { animation: none; }
 @keyframes draw-heading-stroke {
@@ -317,16 +317,16 @@ body:has(.opening-stage) .heading-stroke path { animation: none; }
 .calendar-grid { position: relative; }
 .calendar-frame { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
 .calendar-frame rect { fill: none; stroke: var(--line); stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 0; }
-.calendar-area:has(.is-animating) > .calendar-outer-frame rect { animation: calendar-frame-draw 1100ms ease-in-out both; }
-.almanac.is-animating .calendar-cell .calendar-frame rect { animation: calendar-frame-draw 650ms ease-in-out calc(250ms + var(--cell) * 22ms) both; }
+.calendar-area:has(.is-animating) > .calendar-outer-frame rect { animation: calendar-frame-draw 500ms ease-in-out both; }
+.almanac.is-animating .calendar-cell .calendar-frame rect { animation: calendar-frame-draw 300ms ease-in-out calc(100ms + var(--cell) * 10ms) both; }
 .almanac .calendar-wave { opacity: 1; }
 .almanac .calendar-wave path, .almanac .calendar-wave circle { animation: none; opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 1; }
 .calendar-wave circle { transform-box: fill-box; transform-origin: center; }
 .calendar-wave .eye-cw { transform: rotate(-90deg); }
 .calendar-wave .eye-ccw { transform: rotate(-90deg) scaleY(-1); }
-.almanac.is-animating .calendar-wave path { animation: almanac-wave 1000ms linear calc(500ms + var(--cell) * 60ms) both; }
-.almanac.is-animating .calendar-wave circle { animation: almanac-eye 1050ms ease-out calc(530ms + var(--cell) * 60ms) both; }
-.almanac-navigation button { opacity: 1; transition: opacity 600ms ease; }
+.almanac.is-animating .calendar-wave path { animation: almanac-wave 300ms linear calc(200ms + var(--cell) * 21ms) both; }
+.almanac.is-animating .calendar-wave circle { animation: almanac-eye 320ms ease-out calc(210ms + var(--cell) * 21ms) both; }
+.almanac-navigation button { opacity: 1; transition: opacity 300ms ease; }
 .almanac.is-animating .almanac-navigation button { opacity: 0; transition: none; pointer-events: none; }
 .terminal-text { white-space: pre-wrap; }
 .terminal-prefix { position: relative; }
@@ -366,7 +366,7 @@ html[data-page-loading] .heading-stroke path { animation: none; }
 .calendar-wave-cursor { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 2; }
 /* Reveal each date as the wave reaches the center of its cell. */
 .almanac .calendar-cell button { opacity: 1; transition: none; }
-.almanac.is-animating .calendar-cell button { animation: calendar-date-reveal 1ms step-end calc(530ms + var(--cell) * 60ms) both; }
+.almanac.is-animating .calendar-cell button { animation: calendar-date-reveal 1ms step-end calc(210ms + var(--cell) * 21ms) both; }
 @keyframes calendar-date-reveal { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) {
   .calendar-wave-cursor { display: none; }
@@ -385,14 +385,14 @@ html[data-page-loading] .heading-stroke path { animation: none; }
 .assembly-outline { stroke-dasharray: 1; stroke-dashoffset: 0; }
 .assembly-button-glow { opacity: .28; }
 .assembly-dpad { transform-box: fill-box; transform-origin: center; }
-.controller-stage.is-playing .assembly-guide { animation: logo-guide 2800ms linear both; }
-.controller-stage.is-playing .assembly-outline { animation: logo-weld 2400ms linear 250ms both; }
-.controller-stage.is-playing .assembly-arc { animation: logo-arc 2400ms linear 250ms both; }
-.controller-stage.is-playing .arc-sparks { animation: logo-sparks 420ms linear infinite; }
-.controller-stage.is-playing .assembly-dpad { animation: logo-drop 900ms cubic-bezier(.16,.7,.25,1) 2700ms both; }
-.controller-stage.is-playing .assembly-shoulders { animation: logo-slide 750ms cubic-bezier(.2,.65,.2,1) 2700ms both; }
-.controller-stage.is-playing .assembly-button { animation: logo-light 240ms ease-out var(--light-delay) both; }
-.controller-stage.is-playing .assembly-lettering { animation: logo-lettering 400ms ease-out 4900ms both; }
+.controller-stage.is-playing .assembly-guide { animation: logo-guide 750ms linear both; }
+.controller-stage.is-playing .assembly-outline { animation: logo-weld 650ms linear 50ms both; }
+.controller-stage.is-playing .assembly-arc { animation: logo-arc 650ms linear 50ms both; }
+.controller-stage.is-playing .arc-sparks { animation: logo-sparks 200ms linear infinite; }
+.controller-stage.is-playing .assembly-dpad { animation: logo-drop 350ms cubic-bezier(.16,.7,.25,1) 700ms both; }
+.controller-stage.is-playing .assembly-shoulders { animation: logo-slide 300ms cubic-bezier(.2,.65,.2,1) 700ms both; }
+.controller-stage.is-playing .assembly-button { animation: logo-light 150ms ease-out var(--light-delay) both; }
+.controller-stage.is-playing .assembly-lettering { animation: logo-lettering 250ms ease-out 1200ms both; }
 @keyframes logo-guide { 0%, 90% { opacity: .6; } 100% { opacity: 0; } }
 @keyframes logo-weld { 0% { stroke-dashoffset: 1; opacity: 0; } 1% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } }
 @keyframes logo-arc { 0%, 100% { opacity: 0; } 2%, 98% { opacity: 1; } }
@@ -423,7 +423,7 @@ html[data-page-loading] .heading-stroke path { animation: none; }
 .almanac-event-summary strong { font-weight: 500; }
 .almanac-event-summary > span { margin-left: auto; }
 .almanac-event-summary:hover { color: var(--red); }
-.almanac.is-animating .almanac-event-summary { animation: logo-lettering 500ms ease 3500ms both; }
+.almanac.is-animating .almanac-event-summary { animation: logo-lettering 300ms ease 1150ms both; }
 .footer-layout .footer-directory { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
 .footer-layout { grid-template-columns: minmax(0, 3fr) minmax(240px, 1fr); gap: 26px; }
 .footer-contact .contact-email { display: inline-block; }

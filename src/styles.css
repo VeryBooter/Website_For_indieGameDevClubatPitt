@@ -1013,14 +1013,14 @@ details figure {
   position: absolute;
   inset: 0;
   background: var(--paper);
-  animation: veil-resolve 2.4s ease both
+  animation: veil-resolve 1.4s ease both
 }
 .unfolding-plan {
   position: absolute;
   display: flex;
   inset: 9% 5% 14%;
   transform-style: preserve-3d;
-  animation: plan-expand 2.4s cubic-bezier(.22,.6,.25,1) both
+  animation: plan-expand 1.4s cubic-bezier(.22,.6,.25,1) both
 }
 .plan-panel {
   width: 33.333%;
@@ -1034,11 +1034,11 @@ details figure {
 }
 .panel-left {
   transform-origin: right;
-  animation: fold-left 2.4s ease both
+  animation: fold-left 1.4s ease both
 }
 .panel-right {
   transform-origin: left;
-  animation: fold-right 2.4s ease both
+  animation: fold-right 1.4s ease both
 }
 .plan-panel::after {
   content: '';
@@ -1080,7 +1080,7 @@ details figure {
   height: 150px;
   top: calc(50% - 126px);
   left: calc(50% - 63px);
-  animation: maker-deploy 2.4s ease both;
+  animation: maker-deploy 1.4s ease both;
   overflow: visible
 }
 .maker-arm {
@@ -1088,10 +1088,10 @@ details figure {
   transform-origin: top center
 }
 .arm-left {
-  animation: reach-left 1.5s ease both
+  animation: reach-left 1.0s ease both
 }
 .arm-right {
-  animation: reach-right 1.5s ease both
+  animation: reach-right 1.0s ease both
 }
 .intro-skip {
   pointer-events: auto;
@@ -1307,7 +1307,7 @@ details figure {
     bottom: 60px
   }
   .opening-stage .intro-veil {
-    animation-duration: 2s
+    animation-duration: 1.4s
   }
   .main-nav:not(.is-open) {
     display: none

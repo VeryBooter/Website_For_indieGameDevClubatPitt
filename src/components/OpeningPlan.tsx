@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { club } from '../data/club';
 import { shouldPlayIntro } from './introPolicy';
 export const INTRO_KEY = 'pitt-igdc:map-unroll-seen:v3';
-export const INTRO_DURATION = 2800;
+export const INTRO_DURATION = 1400;
 /** Unrolls the actual home surface by uncovering it behind a moving paper curl. */
 export function OpeningPlan({ replay = 0 }: {
     replay?: number;
