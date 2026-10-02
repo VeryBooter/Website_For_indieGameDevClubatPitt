@@ -106,6 +106,10 @@ The PDFs supply layout sketches. The latest direct message determines the final 
 
 The original contemporary bird-worm-inspired 造境成遊 seal is featured on the initial loading screen (`#boot-loader` in `index.html`) at the lower-right corner. It is not displayed across general page layouts. The web asset is `public/assets/zaojing-chengyou-seal.svg`; editable artwork and research notes live in `output/seal/`.
 
+## Weekly General Body Meeting (GBM)
+
+The club hosts a Weekly GBM every Saturday from 2–3 PM in Lawrence Hall 104. Meeting details and Saturday dates for Fall 2026 are published in `events` and displayed across the Where & When section, the interactive Club Almanac calendar, and the Join page.
+
 ## Game Jam
 
 The Game Jam entry links to [Pitt’s Games 4 Social Impact 2026](https://itch.io/jam/pitt-games-4-social-impact-2026). Its published October 16–18 schedule is included in `events`, with links to the organizer’s page for details and registration. The top navigation, Join page, event section, and footer all expose the link.
