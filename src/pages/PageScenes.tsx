@@ -3,6 +3,9 @@ import type { ReactNode } from 'react';
 import { Proposal } from './Proposal';
 import type { Scene } from '../components/ScenePager';
 import { Hero } from '../sections/Hero';
+import { AboutClub } from '../sections/AboutClub';
+import { WhyJoin } from '../sections/WhyJoin';
+import { ArtTeam, CodeTeam } from '../sections/TeamPages';
 import { Projects } from '../sections/Projects';
 import { About } from '../sections/About';
 import { Events } from '../sections/Events';
@@ -23,9 +26,6 @@ function Community() {
 }
 function TeamDirectory() {
   return <section className="wrap scene-section" id="directory"><Title label="TEAM / MEMBERS / ADVISORS">The people behind <em>the play.</em></Title>{people.length ? <div className="team-directory">{people.map(person => <article key={person.name}>{person.photo && <img src={person.photo} alt={person.name} loading="lazy" />}<h3>{person.name}</h3><p>{person.role}</p><p>{person.bio}</p>{person.linkedinUrl && <a className="text-link" href={person.linkedinUrl}>LinkedIn ↗</a>}</article>)}</div> : <div className="directory-pending"><span className="eyebrow">PROFILES TO COME</span><p>{club.pending.people}</p><p>Names, roles, portraits, and LinkedIn profiles will be added after confirmation.</p></div>}</section>;
-}
-function Discover() {
-  return <section className="wrap scene-section" id="discover"><Title label="TBD">TBD</Title><div className="discovery-grid">{[1, 2, 3, 4].map((item, index) => <a key={item} className={index === 0 ? 'discovery-feature' : undefined} href={`./untitled.html${index ? '#details' : ''}`} aria-label={`TBD — preview ${item}`}><span className="eyebrow">0{item}</span><h3>TBD</h3><span>TBD ↗</span></a>)}</div></section>;
 }
 function SponsorshipIntro() {
   return <section className="wrap scene-section centered-intro" id="sponsorship"><Title label="SPONSORSHIP" first>{club.sponsorIntro}</Title><DraftNote /><p className="intro-lead">Explore the club’s supporters, purpose, sponsorship opportunities, and contact information.</p><div className="sponsor-index"><a href="#supporters"><span>01</span>Our supporters ↓</a><a href="#why-sponsor"><span>02</span>Why sponsor? ↓</a><a href="#levels"><span>03</span>Sponsorship levels ↓</a><a href="#sponsor-contact"><span>04</span>Contact ↓</a><a href="./projects.html"><span>05</span>Our projects ↗</a><a href="./team.html"><span>06</span>Our team ↗</a></div></section>;
@@ -49,15 +49,6 @@ function Resources() {
 function Wiki() {
   return <section className="wrap scene-section wiki-page" id="wiki"><Title label="iGDC AT PITT" first>Wiki</Title><div className="wiki-layout"><nav aria-label="Wiki contents"><span className="eyebrow">CONTENTS</span><a href="#untitled-wiki">01 / Untitled</a></nav><article id="untitled-wiki"><p className="eyebrow">01 / UNTITLED</p><h2>Untitled</h2><p>Untitled</p><details><summary>Untitled <span aria-hidden="true">+</span></summary><p>Untitled</p></details></article></div><a className="text-link" href="./projects.html">All projects ↗</a></section>;
 }
-function UntitledIntro() {
-  return <section className="wrap scene-section scene-split" id="untitled"><div><Title label="TBD" first>TBD</Title><p className="body-large">TBD</p><a className="button button-ink" href="#details" aria-label="Read TBD details">TBD ↓</a></div><div className="untitled-visual" role="img" aria-label="TBD image placeholder"><span>TBD</span></div></section>;
-}
-function UntitledDetails() {
-  return <section className="wrap scene-section" id="details"><Title label="TBD">TBD</Title><div className="untitled-grid">{[1,2,3].map(item => <article key={item}><span className="eyebrow">0{item}</span><h3>TBD</h3><p>TBD</p><details><summary>TBD</summary><p>TBD</p></details></article>)}</div><a className="text-link" href="#next">TBD ↓</a></section>;
-}
-function UntitledNext() {
-  return <section className="wrap scene-section centered-intro" id="next"><Title label="TBD">TBD</Title><p className="intro-lead">TBD</p><div className="intro-links"><a className="button button-join" href="./join.html" aria-label="Join us">TBD ↗</a><a className="text-link" href="./index.html#discover" aria-label="Back to Home">TBD ↗</a></div></section>;
-}
 function ProjectDetail() {
   return <section className="wrap scene-section scene-split" id="project-preview"><div><Title label="PROJECT PREVIEW">{projectPreview.title}</Title><span className="draft-note">{projectPreview.titleStatus}</span><p className="body-large">{projectPreview.description}</p>{projectPreview.githubUrl ? <a className="button button-ink" href={projectPreview.githubUrl}>GitHub ↗</a> : <p className="pending-line">GitHub repository · awaiting a verified link</p>}<a className="text-link" href="#projects">All projects ↑</a></div><div className="demo-area">{projectPreview.videoUrl ? <video controls preload="metadata" poster={projectPreview.poster ?? undefined} src={projectPreview.videoUrl} aria-label={`${projectPreview.title} demonstration`} /> : <div><span className="eyebrow">GAME DEMONSTRATION</span><h3>A window into<br />the work.</h3><p>The project demo video has not been supplied yet.</p></div>}</div></section>;
 }
@@ -69,12 +60,13 @@ function History({ first = false }: { first?: boolean }) {
 }
 export function pageScenes(page: PageId): Scene[] {
   switch (page) {
-    case 'home': return [{ id: 'home', label: 'Home', content: <Hero /> }, { id: 'discover', label: 'TBD', content: <Discover /> }, { id: 'events', label: 'Club almanac', content: <Events /> }];
+    case 'home': return [{ id: 'home', label: 'Home', content: <Hero /> }, { id: 'about', label: 'About our club', content: <AboutClub /> }, { id: 'why-join', label: 'Why join?', content: <WhyJoin /> }, { id: 'events', label: 'Club almanac', content: <Events /> }];
+    case 'artTeam': return [{ id: 'art-team', label: 'Art Team', content: <ArtTeam /> }];
+    case 'codeTeam': return [{ id: 'code-team', label: 'Code Team', content: <CodeTeam /> }];
     case 'projects': return [{ id: 'projects', label: 'Projects', content: <Projects /> }, { id: 'project-preview', label: 'Project details', content: <ProjectDetail /> }, { id: 'resources', label: 'Wiki', content: <Resources /> }, { id: 'propose', label: 'Proposal form', content: <Proposal /> }];
     case 'wiki': return [{ id: 'wiki', label: 'Wiki', content: <Wiki /> }];
     case 'history': return [{ id: 'history', label: 'History', content: <History first /> }, { id: 'gallery', label: 'Gallery', content: <Gallery /> }];
     case 'members': return [{ id: 'directory', label: 'Members', content: <><h1 className="sr-only">Members</h1><TeamDirectory /></> }, { id: 'events', label: 'Events', content: <Events /> }];
-    case 'untitled': return [{ id: 'untitled', label: 'TBD', content: <UntitledIntro /> }, { id: 'details', label: 'TBD', content: <UntitledDetails /> }, { id: 'next', label: 'TBD', content: <UntitledNext /> }];
     case 'team': return [{ id: 'team', label: 'About our club', content: <ClubIntroduction /> }, { id: 'community', label: 'Our community', content: <Community /> }, { id: 'join', label: 'Join us', content: <Join /> }];
     case 'sponsorship': return [{ id: 'sponsorship', label: 'Sponsorship', content: <SponsorshipIntro /> }, { id: 'supporters', label: 'Our supporters', content: <Supporters /> }, { id: 'why-sponsor', label: 'Why sponsor?', content: <WhySponsor /> }, { id: 'levels', label: 'Sponsorship levels', content: <Levels /> }, { id: 'sponsor-contact', label: 'Contact', content: <SponsorContact /> }];
     case 'about': return [{ id: 'about', label: 'Our purpose', content: <><h1 className="sr-only">About the club</h1><About /></> }, { id: 'history', label: 'Our history', content: <History /> }, { id: 'gallery', label: 'Gallery', content: <Gallery /> }];

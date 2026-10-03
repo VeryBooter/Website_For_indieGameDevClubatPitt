@@ -5,14 +5,36 @@ export function ScrollReveals() {
         if (motion.matches || !('IntersectionObserver' in window))
             return;
         const observer = new IntersectionObserver(entries => {
-            for (const entry of entries)
+            for (const entry of entries) {
                 if (entry.isIntersecting) {
-                    // Animate on entry, but never hide content while waiting for an observer.
-                    entry.target.animate([{ opacity: .55, transform: 'translateY(18px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 650, easing: 'cubic-bezier(.2,.6,.3,1)' });
+                    // Cinematic entrance: moving from thin air with subtle blur and upward float
+                    entry.target.animate([
+                        { opacity: 0, transform: 'translateY(24px) scale(0.98)', filter: 'blur(6px)' },
+                        { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0)' }
+                    ], {
+                        duration: 850,
+                        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                        fill: 'both'
+                    });
                     observer.unobserve(entry.target);
                 }
-        }, { threshold: .12 });
-        document.querySelectorAll('[data-reveal]').forEach(element => observer.observe(element));
+            }
+        }, { threshold: 0.1 });
+
+        const selectors = [
+            '[data-reveal]',
+            '.hero-copy > *',
+            '.hero #hero-title',
+            '.about-club-content > *',
+            '.why-join-card',
+            '.spec-card',
+            '.event-entry',
+            '.page-scene-title',
+            '.centered-intro > *',
+            '.join-steps li',
+            '.gbm-schedule-banner',
+        ];
+        document.querySelectorAll(selectors.join(',')).forEach(element => observer.observe(element));
         const stop = () => { if (motion.matches) {
             observer.disconnect();
             document.getAnimations().forEach(animation => animation.cancel());

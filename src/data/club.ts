@@ -77,8 +77,10 @@ export const navigation: NavigationItem[] = [
     { label: 'Home', href: './index.html' },
     { label: 'Projects', href: './projects.html' },
     { label: 'Team', href: './team.html', children: [
-      { label: 'History & Gallery', href: './history.html' },
+      { label: 'Art Team', href: './art-team.html' },
+      { label: 'Code Team', href: './code-team.html' },
       { label: 'Members & Events', href: './members.html' },
+      { label: 'History & Gallery', href: './history.html' },
     ] },
     { label: 'Wiki', href: './wiki.html' },
     { label: 'Sponsorship', href: './sponsorship.html' },

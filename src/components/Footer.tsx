@@ -2,10 +2,11 @@ import { club, destinations, relatedOrganizations, contactEmail, gameJam, joinEm
 import { DestinationLink } from './ui';
 import { SocialBar } from './SocialBar';
 export const footerGroups = [
-  { label: 'Home', href: './index.html', links: [{ label: 'TBD', href: './untitled.html' }, { label: 'Join us', href: './join.html' }] },
+  { label: 'Home', href: './index.html', links: [{ label: 'About our club', href: './index.html#about' }, { label: 'Why join?', href: './index.html#why-join' }, { label: 'Events & Almanac', href: './events.html' }, { label: 'Join us', href: './join.html' }] },
   { label: 'Projects', href: './projects.html', links: [{ label: 'Legio Astralis', href: './projects.html#project-preview' }, { label: 'Proposal form', href: './projects.html#propose' }, { label: 'Game Jam', href: gameJam.url }] },
-  { label: 'About the club', href: './about.html', links: [{ label: 'History', href: './history.html' }, { label: 'Gallery', href: './history.html#gallery' }, { label: 'Team', href: './members.html' }, { label: 'Club overview', href: './team.html' }, { label: 'Events', href: './events.html' }] },
-  { label: 'Wiki', href: './wiki.html', links: [{ label: 'Untitled', href: './wiki.html#untitled-wiki' }] },
+  { label: 'About the club', href: './about.html', links: [{ label: 'Club overview', href: './team.html' }, { label: 'History', href: './history.html' }, { label: 'Gallery', href: './history.html#gallery' }, { label: 'Members', href: './members.html' }, { label: 'Events', href: './events.html' }] },
+  { label: 'Team', href: './team.html', links: [{ label: 'Art Team', href: './art-team.html' }, { label: 'Code Team', href: './code-team.html' }, { label: 'Members', href: './members.html' }, { label: 'History & Gallery', href: './history.html' }] },
+  { label: 'Wiki', href: './wiki.html', links: [{ label: 'Wiki library', href: './wiki.html#untitled-wiki' }] },
   { label: 'Sponsorship', href: './sponsorship.html', links: [{ label: 'Supporters', href: './sponsorship.html#supporters' }, { label: 'Why sponsor?', href: './sponsorship.html#why-sponsor' }, { label: 'Levels', href: './sponsorship.html#levels' }, { label: 'Contact', href: './sponsorship.html#sponsor-contact' }] },
 ];
 export function Footer() {

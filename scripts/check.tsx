@@ -40,7 +40,9 @@ assert.equal(pages.home.title, 'Building Our Game Dev Community @ Pitt | Indie G
 for (const page of Object.keys(pages) as PageId[]) assert.equal(pageFromPath(`/repository/${pages[page].file}`), page);
 assert.equal(pageScenes('sponsorship').length, 5);
 assert.equal(pageScenes('team').length, 3);
-assert.equal(pageScenes('home').length, 3);
+assert.equal(pageScenes('home').length, 4);
+assert.equal(pageScenes('artTeam').length, 1);
+assert.equal(pageScenes('codeTeam').length, 1);
 const joining = rendered.get('join.html')!;
 assert(rendered.has('wiki.html') && !rendered.has('docs.html'), 'Wiki replaces the Docs route');
 for (const html of rendered.values()) assert(!/href="[^\"]*docs\.html/.test(html), 'No navigation points to the removed Docs page');
@@ -103,7 +105,9 @@ for (const metadata of Object.values(pages)) {
 }
 const homepage = rendered.get('index.html')!;
 assert(!homepage.includes('WORLD_01') && !homepage.includes('Keep scrolling'));
-assert(homepage.includes('href="./untitled.html"'));
+assert(!homepage.includes('href="./untitled.html"'));
+assert(homepage.includes('href="#about"'));
+assert(homepage.includes('href="#why-join"'));
 assert(!homepage.match(/<h1[^>]*>[\s\S]*?<br\s*\/?>([\s\S]*?)<\/h1>/));
 for (const channel of ['YouTube', 'Instagram', 'X', 'Facebook']) assert(directory.includes(`${channel} — link pending`));
 const projectsPage = rendered.get('projects.html')!;

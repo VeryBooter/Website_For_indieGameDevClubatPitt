@@ -4,7 +4,8 @@ export const pages = {
   wiki: { file: 'wiki.html', label: 'Wiki', title: 'Wiki | iGDC at Pitt', description: 'The iGDC knowledge library for project notes, resources, and guides.' },
   history: { file: 'history.html', label: 'History', title: 'History & Gallery | Indie Game Dev Club @ Pitt', description: 'The club timeline and gallery.' },
   members: { file: 'members.html', label: 'Members', title: 'Members & Events | Indie Game Dev Club @ Pitt', description: 'Club members, advisors, and the event calendar.' },
-  untitled: { file: 'untitled.html', label: 'TBD', title: 'TBD | Indie Game Dev Club @ Pitt', description: 'TBD. This page is awaiting confirmed content.' },
+  artTeam: { file: 'art-team.html', label: 'Art Team', title: 'Art Team | Indie Game Dev Club @ Pitt', description: 'Art Team: Visual design, concept art, Cathedral of Learning studies, and asset pipelines.' },
+  codeTeam: { file: 'code-team.html', label: 'Code Team', title: 'Code Team | Indie Game Dev Club @ Pitt', description: 'Code Team: Unity architecture, gameplay systems, Cathedral of Learning abstraction, and mechanics.' },
   team: { file: 'team.html', label: 'Team', title: 'Team | Indie Game Dev Club @ Pitt', description: 'Meet the team and learn about the game development community at Pitt.' },
   sponsorship: { file: 'sponsorship.html', label: 'Sponsorship', title: 'Sponsorship | Indie Game Dev Club @ Pitt', description: 'Supporters, reasons to sponsor, approved sponsorship opportunities, and contact information.' },
   about: { file: 'about.html', label: 'About', title: 'About | Indie Game Dev Club @ Pitt', description: 'The club’s purpose, history, gallery, and events.' },
@@ -22,6 +23,7 @@ export function pageHref(id: PageId, anchor?: string) { return `./${pages[id].fi
 export const legacyProjectRoutes: Record<string, string> = {
   'project.html': './projects.html#project-preview',
   'proposal.html': './projects.html#propose',
+  'untitled.html': './index.html#about',
 };
 export function legacyProjectRedirect(path: string) {
   return legacyProjectRoutes[path.split('/').pop() ?? ''];
