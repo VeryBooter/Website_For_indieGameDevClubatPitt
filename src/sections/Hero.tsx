@@ -11,6 +11,7 @@ export function Hero() {
       <p className="hero-gbm-note">Weekly GBM: Every Saturday throughout the semester (now until 12/13) · 2:00 PM – 3:00 PM in Lawrence 104.</p>
       <p className="vibe-coded-note">This website is vibe coded with AI assistance.</p>
       <div className="hero-actions"><a className="button button-join" href="./join.html">Join us <span aria-hidden="true">↗</span></a><a className="text-link" href="#about">About our club <span aria-hidden="true">↓</span></a></div>
+      <div className="hero-actions"><a className="button button-join" href="./join.html">Join us <span aria-hidden="true">↗</span></a></div>
     </div>
     <ControllerAssembly />
 

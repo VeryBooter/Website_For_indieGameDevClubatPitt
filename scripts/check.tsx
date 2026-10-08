@@ -108,6 +108,8 @@ assert(!homepage.includes('WORLD_01') && !homepage.includes('Keep scrolling'));
 assert(!homepage.includes('href="./untitled.html"'));
 assert(homepage.includes('href="#about"'));
 assert(homepage.includes('href="#why-join"'));
+assert(homepage.includes('id="about"'));
+assert(homepage.includes('id="why-join"'));
 assert(!homepage.match(/<h1[^>]*>[\s\S]*?<br\s*\/?>([\s\S]*?)<\/h1>/));
 for (const channel of ['YouTube', 'Instagram', 'X', 'Facebook']) assert(directory.includes(`${channel} — link pending`));
 const projectsPage = rendered.get('projects.html')!;

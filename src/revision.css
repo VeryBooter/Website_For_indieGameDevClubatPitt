@@ -523,14 +523,60 @@ html[data-page-loading] .heading-stroke path { animation: none; }
 .video-meta-badge { position: relative; z-index: 2; align-self: flex-start; display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(0, 0, 0, 0.65); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; font-size: 11px; letter-spacing: .08em; font-family: ui-monospace, monospace; color: #fff; }
 .video-rec-indicator { width: 8px; height: 8px; border-radius: 50%; background: #e54117; display: inline-block; animation: cursor-blink 1.2s step-end infinite; }
 .about-club-content { padding: clamp(28px, 4vw, 56px); display: flex; flex-direction: column; justify-content: center; }
+/* Sticky Navigation Bar across all pages */
+.site-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding-inline: clamp(24px, 4.5vw, 64px) !important;
+  background: rgba(245, 243, 236, 0.95) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: 1px solid var(--line) !important;
+  box-sizing: border-box !important;
+}
+
+/* Home Scene 2: About Our Club (Full Width, No Outer Margins) */
+.about-club-scene {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding-block: clamp(64px, 8vw, 110px);
+  padding-inline: clamp(28px, 6vw, 120px);
+  background: #fbf8f3;
+  border-block: 1px solid var(--line);
+  box-sizing: border-box;
+}
+.about-club-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  display: block;
+}
+.about-club-content {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .about-club-content h2 { font-size: clamp(2.2rem, 3.8vw, 3.8rem); line-height: 1.15; margin: 12px 0 20px; }
 .about-club-content h2 em { display: inline; font-size: 1em; }
 .about-club-statement { font-family: var(--serif); font-size: clamp(1.2rem, 1.6vw, 1.55rem); line-height: 1.45; color: var(--ink); margin-bottom: 28px; }
 .about-club-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
 .about-highlight-card { padding: 16px; border: 1px solid var(--line); background: var(--paper); border-radius: 4px; }
+.about-club-statement { font-family: var(--serif); font-size: clamp(1.2rem, 1.6vw, 1.55rem); line-height: 1.45; color: var(--ink); margin-bottom: 28px; max-width: 880px; }
+.about-club-highlights { display: grid; grid-template-columns: minmax(0, 480px); gap: 16px; margin-bottom: 32px; }
+.about-highlight-card { padding: 18px 22px; border: 1px solid var(--line); background: var(--paper); border-radius: 4px; }
 .highlight-tag { display: block; font-size: 10px; letter-spacing: .12em; color: var(--action); margin-bottom: 6px; font-weight: 600; }
 .about-highlight-card strong { display: block; font-size: 15px; margin-bottom: 4px; color: var(--ink); }
 .about-highlight-card p { font-size: 12px; line-height: 1.5; color: var(--muted); margin: 0; }
+.about-highlight-card strong { display: block; font-size: 16px; margin-bottom: 4px; color: var(--ink); }
+.about-highlight-card p { font-size: 13px; line-height: 1.5; color: var(--muted); margin: 0; }
 .about-club-actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
 
 /* Home Scene 3: Why Join */

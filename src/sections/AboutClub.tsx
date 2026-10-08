@@ -3,6 +3,7 @@ import { DrawnUnderline } from '../components/DrawnUnderline';
 export function AboutClub() {
   return (
     <section className="wrap scene-section about-club-scene cinematic-enter" id="about" aria-labelledby="about-club-title">
+    <section className="scene-section about-club-scene cinematic-enter" id="about" aria-labelledby="about-club-title">
       <div className="about-club-container">
         <div className="about-club-video-bg" aria-hidden="true">
           <div className="video-atmosphere-glow" />
