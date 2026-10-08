@@ -4,6 +4,7 @@ import { pageFromPath, pages, legacyProjectRedirect } from './navigation/pages';
 import './styles.css';
 import './pages.css';
 import './revision.css';
+import './components/game-backdrop.css';
 const legacyTarget = legacyProjectRedirect(location.pathname);
 if (legacyTarget) {
   const target = new URL(legacyTarget, location.href);

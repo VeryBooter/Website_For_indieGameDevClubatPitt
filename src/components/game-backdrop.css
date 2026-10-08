@@ -1,0 +1,98 @@
+/* A quiet pixel-art world: the center stays light enough for continuous reading. */
+#root {
+  position: relative;
+  isolation: isolate;
+}
+
+.game-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  background:
+    radial-gradient(ellipse at 94% 20%, #eddfc44d, transparent 48%),
+    linear-gradient(180deg, #f5f3ec 15%, #f0f0e5 100%);
+}
+
+.game-backdrop-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#71856b12 1px, transparent 1px),
+    linear-gradient(90deg, #71856b12 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(90deg, #0009, #0002 30%, #0002 65%, #000b);
+}
+
+.game-backdrop-world {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: max(100%, 1100px);
+  height: auto;
+  max-height: 85svh;
+}
+
+.game-backdrop-wash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 46% 42%, #f5f3eced 0%, #f5f3ec9c 34%, #f5f3ec00 76%);
+}
+
+.game-spark {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #ad7956;
+  opacity: .3;
+  clip-path: polygon(37.5% 0, 62.5% 0, 62.5% 37.5%, 100% 37.5%, 100% 62.5%, 62.5% 62.5%, 62.5% 100%, 37.5% 100%, 37.5% 62.5%, 0 62.5%, 0 37.5%, 37.5% 37.5%);
+  animation: game-spark-glow 5s ease-in-out infinite alternate;
+}
+
+.game-spark-one { top: 21%; left: 3%; }
+.game-spark-two { top: 31%; right: 7%; width: 24px; height: 24px; animation-delay: -2s; }
+.game-spark-three { top: 62%; left: 8%; width: 12px; height: 12px; animation-delay: -3s; }
+.game-spark-four { top: 16%; right: 24%; width: 8px; height: 8px; animation-delay: -1s; }
+
+.game-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: #9b403340;
+  border-style: solid;
+}
+
+.game-corner-top { top: calc(var(--header-height, 92px) + 24px); left: 20px; border-width: 2px 0 0 2px; }
+.game-corner-bottom { right: 20px; bottom: 20px; border-width: 0 2px 2px 0; }
+
+/* Let the world show faintly through the full-width club introduction. */
+.about-club-scene {
+  background: #fbf8f3d9;
+}
+
+@keyframes game-spark-glow {
+  from { opacity: .18; }
+  to { opacity: .42; }
+}
+
+@media (max-width: 800px) {
+  .game-backdrop-grid { background-size: 32px 32px; opacity: .65; }
+  .game-backdrop-world { right: -180px; opacity: .75; }
+  .game-backdrop-wash { background: linear-gradient(180deg, #f5f3ec55, #f5f3ecc9 38%, #f5f3ec33); }
+  .game-world-island { display: none; }
+  .game-corner { width: 12px; height: 12px; }
+  .game-corner-top { left: 10px; }
+  .game-corner-bottom { right: 10px; bottom: 10px; }
+  .game-spark-two { right: 4%; width: 16px; height: 16px; }
+  .game-spark-three, .game-spark-four { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-spark { animation: none; opacity: .25; }
+}
+
+@media print {
+  .game-backdrop { display: none; }
+}
